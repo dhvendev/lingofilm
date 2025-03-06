@@ -24,6 +24,7 @@
 .DS_Store
 *.pem
 .venv
+__pycache__
 
 # debug
 npm-debug.log*
