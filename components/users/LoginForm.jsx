@@ -1,7 +1,7 @@
 'use client';
-
 import { useState } from "react";
-import { login } from "@/api/user";
+import api from "@/services/axiosConfig";
+
 
 export default function LoginForm() {
     const [email, setEmail] = useState('');
@@ -9,7 +9,8 @@ export default function LoginForm() {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        login(email, password);
+        const response = await api.post('/api/users/authenticate', { email, password }, { withCredentials: true });
+        console.log(response);
     };
 
     return (

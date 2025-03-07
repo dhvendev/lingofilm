@@ -1,4 +1,5 @@
 import sqlite3
+from typing import Union
 
 
 #create simple connect for test, after success, change postgres
@@ -22,8 +23,11 @@ class DatabaseManager:
             self.conn.commit()
 
 
-    def get_user(self, email):
+    def get_user(self, email) -> Union[dict, None]:
         with self.conn:
             self.cursor = self.conn.cursor()
             self.cursor.execute('SELECT * FROM users WHERE email = ?', (email,))
-            return self.cursor.fetchone()
+            user =  self.cursor.fetchone()
+            if user:
+                return {'id': user[0], 'email': user[1], 'username': user[2]}
+            return None
