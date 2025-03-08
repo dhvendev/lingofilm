@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Response, Request, HTTPException, Depends  
+from fastapi import FastAPI, Response, Request, HTTPException, Depends, Cookie
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.middleware.cors import CORSMiddleware
@@ -60,11 +60,26 @@ def authenticate(user: LoginUser, response: Response, request: Request):
     return {"email": user_data.get('email'), "username": user_data.get('username')}
 
 
+@app.post('/api/users/logout')
+def logout(response: Response, session_id: str = Cookie(default=None)):
+    if not session_id:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    email = redis_client.hget(f"session:{session_id}", "email")
+    redis_client.srem(f"user_sessions:{email}", session_id)
+    redis_client.delete(f"session:{session_id}")
+    response.delete_cookie(key="session_id")
+    return {"message": "Logout successful"}
 
 
-@app.post('/api/users/createUser')
-def create_user():
-    pass
+
+@app.post('/api/users/getUser')
+def get_user(response: Response, session_id: str = Cookie(default=None)):
+    if not session_id:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    email = redis_client.hget(f"session:{session_id}", "email")
+    user_data = db.get_user(email)
+    return {"email": user_data.get('email'), "username": user_data.get('username')}
 
 
 @app.post('/api/users/editPassword')

@@ -1,16 +1,29 @@
 'use client';
 import { useState } from "react";
-import api from "@/services/axiosConfig";
-
+import { loginUser } from "@/services/axiosMethods";
+import { useUser } from "@/context/userContext";
 
 export default function LoginForm() {
+    const { setUser } = useUser();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await api.post('/api/users/authenticate', { email, password }, { withCredentials: true });
-        console.log(response);
+        setError(null);
+
+        try {
+            const response = await loginUser(email, password);
+            if (!response) {
+                setError("Ошибка входа. Проверьте логин и пароль.");
+            } else {
+                setUser(response);
+            }
+        } catch (err) {
+            setError("Ошибка сервера. Попробуйте позже.");
+            console.error("Ошибка при входе:", err);
+        }
     };
 
     return (
