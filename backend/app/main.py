@@ -1,6 +1,4 @@
 from fastapi import FastAPI, Response, Request, HTTPException, Depends, Cookie
-from fastapi.responses import JSONResponse
-from fastapi.security import OAuth2PasswordBearer
 from fastapi.middleware.cors import CORSMiddleware
 from db import DatabaseManager
 from pydantic import BaseModel
@@ -20,8 +18,6 @@ app.add_middleware(
     allow_methods=["*"],  # Разрешаем все методы (POST, GET и т.д.)
     allow_headers=["*"],  # Разрешаем все заголовки
 )
-
-
 
 
 class LoginUser(BaseModel):

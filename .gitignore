@@ -25,6 +25,7 @@
 *.pem
 .venv
 __pycache__
+TODO
 
 # debug
 npm-debug.log*

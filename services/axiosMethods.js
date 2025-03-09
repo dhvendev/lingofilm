@@ -25,4 +25,14 @@ async function loginUser(email, password) {
     }
 }
 
-export { getUser, loginUser };
+async function logoutUser() {
+    try {
+        const response = await api.post(`/api/users/logout`, {}, { withCredentials: true });
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+export { getUser, loginUser, logoutUser };
