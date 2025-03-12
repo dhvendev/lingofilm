@@ -1,13 +1,14 @@
 from fastapi import FastAPI, Response, Request, HTTPException, Depends, Cookie
 from fastapi.middleware.cors import CORSMiddleware
-from db import DatabaseManager
 from pydantic import BaseModel
+from sqlalchemy.ext.asyncio import AsyncSession
 import redis
 import uuid
+from app.core.db import get_db
+from app.crud.users import get_user, get_user_with_pass
 
 
 app = FastAPI()
-db = DatabaseManager()
 redis_client = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
 
 
@@ -26,34 +27,28 @@ class LoginUser(BaseModel):
 
 
 @app.post('/api/users/authenticate')
-def authenticate(user: LoginUser, response: Response, request: Request):
-
-    #add crypto decode email and password
-
-    #get user (EDIT IN FUTURE)
-    user_data = db.get_user(user.email)
-    print(user_data)
-    if not user_data:
+async def authenticate(user: LoginUser, response: Response, request: Request, session: AsyncSession = Depends(get_db)):
+    user = await get_user_with_pass(user.email, user.password, session)
+    if not user:
         raise HTTPException(status_code=409, detail="User not found")
     #---------------------------
-
+    print(user)
     session_id = str(uuid.uuid4())
-
     #add session
-    redis_client.sadd(f"user_sessions:{user.email}", session_id)
+    redis_client.sadd(f"user_sessions:{user.get('id')}", session_id)
     redis_client.hset(f"session:{session_id}", mapping={
-        "email": user.email,
+        "user_id": user.get('id'),
         "user_agent": request.headers.get("User-Agent", "Unknown")
     })
 
     # set expiration
     redis_client.expire(f"session:{session_id}", 3600)
-    redis_client.expire(f"user_sessions:{user.email}", 3600)
+    redis_client.expire(f"user_sessions:{user.get('email')}", 3600)
 
     # set cookie
     response.set_cookie(key="session_id", value=session_id, httponly=True, max_age=3600, secure=True, samesite="None")
 
-    return {"email": user_data.get('email'), "username": user_data.get('username')}
+    return user
 
 
 @app.post('/api/users/logout')
@@ -74,12 +69,13 @@ def get_user(response: Response, session_id: str = Cookie(default=None)):
         raise HTTPException(status_code=401, detail="Unauthorized")
 
     email = redis_client.hget(f"session:{session_id}", "email")
-    user_data = db.get_user(email)
+    user_data = get_user(email)
     return {"email": user_data.get('email'), "username": user_data.get('username')}
 
 
 @app.post('/api/users/editPassword')
 def edit_password():
+    
     pass
 
 
