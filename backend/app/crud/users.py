@@ -19,7 +19,7 @@ def generate_user_data(user: User, user_subscription: UserSubscription=None, sub
     }
     return data
 
-async def get_user(user_id: int, session: AsyncSession):
+async def get_user(user_id: int, session: AsyncSession) -> Optional[dict]:
     stmt = select(User, UserSubscription, Subscription).outerjoin(UserSubscription, User.id == UserSubscription.user_id).outerjoin(Subscription, UserSubscription.subscription_id == Subscription.id).where(User.id == user_id)
     res = await session.execute(stmt)
     data = res.first()
@@ -28,6 +28,7 @@ async def get_user(user_id: int, session: AsyncSession):
     data = generate_user_data(*data)
     return data
 
+
 async def get_user_with_pass(email: str, password: str, session: AsyncSession) -> Optional[dict]:
     stmt = select(User, UserSubscription, Subscription).outerjoin(UserSubscription, User.id == UserSubscription.user_id).outerjoin(Subscription, UserSubscription.subscription_id == Subscription.id).where(User.email == email, User.hashed_password == password)
     res = await session.execute(stmt)
@@ -35,4 +36,21 @@ async def get_user_with_pass(email: str, password: str, session: AsyncSession) -
     if not data:
         return None
     data = generate_user_data(*data)
+    return data
+
+
+async def check_subscription(user_id: int, session: AsyncSession) -> Optional[dict]:
+    stmt = select(UserSubscription, Subscription).outerjoin(Subscription, UserSubscription.subscription_id == Subscription.id).where(UserSubscription.user_id == user_id)
+    res = await session.execute(stmt)
+    data = res.first()
+    if not data:
+        return None
+    user_subscription, subscription = data
+    data = {
+        'subscription': {
+                'sub_type' : subscription.subscription_type,
+                'expire' : user_subscription.end_date,
+                'is_active' : user_subscription.is_active
+        } if data else {}
+    }
     return data

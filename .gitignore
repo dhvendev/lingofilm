@@ -26,6 +26,7 @@
 .venv
 __pycache__
 TODO
+versions
 
 # debug
 npm-debug.log*

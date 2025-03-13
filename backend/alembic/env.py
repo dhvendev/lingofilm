@@ -4,6 +4,7 @@ from alembic import context
 from app.core.db import Base
 from app.core.config import settings
 from app.models.users import User, Subscription,UserSubscription
+from app.models.movies import *
 
 
 config = context.config
