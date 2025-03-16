@@ -2,12 +2,13 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.movies import *
 from typing import Optional
-from sqlalchemy.orm import joinedload, selectinload
+from sqlalchemy.orm import joinedload
 
 def generate_movie_data(movie: Movie) -> dict:
     return {
         'id': movie.id,
         'title': movie.title,
+        'slug': movie.slug,
         'year': movie.year,
         'description': movie.description,
         'duration': movie.duration,
@@ -17,10 +18,10 @@ def generate_movie_data(movie: Movie) -> dict:
         'statistics': {'views': movie.statistics.views, 'likes': movie.statistics.likes} if movie.statistics else None
     }
 
-async def get_movie(movie_id: int, session: AsyncSession) -> Optional[dict]:
+async def get_movie(movie_slug: str, session: AsyncSession) -> Optional[dict]:
     stmt = (
         select(Movie)
-        .where(Movie.id == movie_id)
+        .where(Movie.slug == movie_slug)
         .options(
             joinedload(Movie.genres),
             joinedload(Movie.actors),
@@ -54,6 +55,25 @@ async def get_movies(session: AsyncSession, genre:list[str] = [], actor: str=Non
 
     if genre:
         stmt = stmt.where(Movie.genres.any(Genre.name.in_(genre)))
+
+    res = await session.execute(stmt)
+    movies = res.unique().scalars().all()
+
+    if not movies:
+        return None
+
+    data = [generate_movie_data(movie) for movie in movies]
+    return data
+
+
+async def get_movies_for_search(session: AsyncSession, query: str) -> Optional[dict]:
+    query = query.lower()
+    stmt = select(Movie).where(Movie.title.ilike(f"%{query}%")).options(
+        joinedload(Movie.genres),
+        joinedload(Movie.actors),
+        joinedload(Movie.media),
+        joinedload(Movie.statistics)
+    )
 
     res = await session.execute(stmt)
     movies = res.unique().scalars().all()

@@ -35,4 +35,17 @@ async function logoutUser() {
     }
 }
 
-export { getUser, loginUser, logoutUser };
+async function getMovieByQuery(query) {
+    try {
+        const response = await api.post(`/api/movies/searchMovies`, { query }, { withCredentials: true });
+        if (!response.data) {
+            return [];
+        }
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
+
+export { getUser, loginUser, logoutUser, getMovieByQuery };

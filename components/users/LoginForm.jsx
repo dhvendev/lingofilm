@@ -70,8 +70,8 @@ export default function LoginForm() {
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleSubmit}>Continue</AlertDialogAction>
+                    <AlertDialogCancel>Отмена</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleSubmit}>Продолжить</AlertDialogAction>
                 </AlertDialogFooter>    
             </AlertDialogContent>
         </AlertDialog>

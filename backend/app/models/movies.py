@@ -66,6 +66,7 @@ class Movie(Base):
     year = Column(Integer, nullable=True)
     description = Column(String, nullable=True)
     duration = Column(Integer, nullable=False)  # В минутах
+    slug = Column(String(255), unique=True, nullable=False)
     created_at = Column(Date, nullable=False, default=func.now())
     
     genres = relationship("Genre", secondary=movie_genre_association, backref="movies")

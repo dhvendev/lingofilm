@@ -7,6 +7,7 @@ import { TvMinimalPlay, Menu, X} from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { ModeToggle } from "./toogleTheme";
+import SearchComponent from "./Search";
 
 const LoginForm = dynamic(() => import("./users/LoginForm"), { ssr: false, loading: () => <span>Загрузка...</span> });
 const ProfileBar = dynamic(() => import("./users/ProfileBar"), { ssr: false, loading: () => <span>Загрузка...</span> });
@@ -40,7 +41,11 @@ export default function Header() {
             </ul>
 
 
-            <div className="flex col-span-2 md:col-span-1 justify-center md:justify-end py-2 md:py-0"><ModeToggle></ModeToggle>{user ? <ProfileBar /> : <LoginForm />}</div>
+            <div className="flex col-span-2 md:col-span-1 justify-center md:justify-end py-2 gap-2 md:py-0">
+                <SearchComponent />
+                <ModeToggle></ModeToggle>
+                {user ? <ProfileBar /> : <LoginForm />}
+            </div>
         </header>
     );
 }
