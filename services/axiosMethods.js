@@ -48,4 +48,17 @@ async function getMovieByQuery(query) {
     }
 }
 
-export { getUser, loginUser, logoutUser, getMovieByQuery };
+async function getMovies() {
+    try {
+        const response = await api.get(`/api/movies/getMovies`, { withCredentials: true });
+        if (!response.data) {
+            return [];
+        }
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
+
+export { getUser, loginUser, logoutUser, getMovieByQuery, getMovies };
