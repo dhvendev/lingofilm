@@ -1,0 +1,15 @@
+.shadowTop {
+  -webkit-box-shadow: 0px 0px 50px 150px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0px 0px 50px 150px rgba(0, 0, 0, 0.7);
+  box-shadow: 0px 0px 50px 150px rgba(0, 0, 0, 0.7);
+}
+
+.shadowBottom {
+  -webkit-box-shadow: 0px 0px 50px 150px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 0px 50px 150px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px 150px 150px rgba(0, 0, 0, 1);
+}
+
+.bgOpacity {
+  background-color: rgba(0, 0, 0, 0.6);
+}

@@ -12,9 +12,12 @@ def generate_movie_data(movie: Movie) -> dict:
         'year': movie.year,
         'description': movie.description,
         'duration': movie.duration,
-        'genres': [{'id': genre.id, 'name': genre.name} for genre in movie.genres],
-        'actors': [{'id': actor.id, 'name': actor.name, 'birth_date': actor.birth_date} for actor in movie.actors],
-        'media': [{'id': media.id, 'type': media.type, 'url': media.url} for media in movie.media],
+        'cover_url': ("https://s3.lingofilm.ru" + movie.cover_url) if movie.cover_url else None,
+        'thumbnail_url': ("https://s3.lingofilm.ru" + movie.thumbnail_url) if movie.thumbnail_url else None,
+        'genres': [genre.name for genre in movie.genres],
+        'actors': [actor.name for actor in movie.actors],
+        'media': [{'quality': media.quality, 'url': "https://s3.lingofilm.ru" + media.url} for media in movie.media],
+        'subtitles': [{'language': subtitle.language, 'url': "https://s3.lingofilm.ru" + subtitle.url} for subtitle in movie.subtitles],
         'statistics': {'views': movie.statistics.views, 'likes': movie.statistics.likes} if movie.statistics else None
     }
 
@@ -26,7 +29,8 @@ async def get_movie(movie_slug: str, session: AsyncSession) -> Optional[dict]:
             joinedload(Movie.genres),
             joinedload(Movie.actors),
             joinedload(Movie.media),
-            joinedload(Movie.statistics)
+            joinedload(Movie.statistics),
+            joinedload(Movie.subtitles)
         )
     )
 
@@ -44,7 +48,8 @@ async def get_movies(session: AsyncSession, genre:list[str] = [], actor: str=Non
         joinedload(Movie.genres),
         joinedload(Movie.actors),
         joinedload(Movie.media),
-        joinedload(Movie.statistics)
+        joinedload(Movie.statistics),
+        joinedload(Movie.subtitles)
     )
 
     if start_date and end_date:
@@ -72,7 +77,8 @@ async def get_movies_for_search(session: AsyncSession, query: str) -> Optional[d
         joinedload(Movie.genres),
         joinedload(Movie.actors),
         joinedload(Movie.media),
-        joinedload(Movie.statistics)
+        joinedload(Movie.statistics),
+        joinedload(Movie.subtitles)
     )
 
     res = await session.execute(stmt)

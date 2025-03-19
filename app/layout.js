@@ -32,10 +32,11 @@ export default async function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <UserProvider initialUser={user}>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-            <main className="w-full md:w-[80vw] flex min-h-screen flex-col items-center mx-auto">
+            <main className="w-full md:w-[80vw] flex flex-col items-center mx-auto">
               <Header />
-              {children}
             </main>
+            {children}
+            
           </ThemeProvider>
         </UserProvider>
       </body>

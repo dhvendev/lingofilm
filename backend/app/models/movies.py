@@ -51,12 +51,24 @@ class Media(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     movie_id = Column(Integer, ForeignKey("movies.id"), nullable=True)
-    series_id = Column(Integer, ForeignKey("series.id"), nullable=True)
-    type = Column(String(50), nullable=False)  # poster, trailer
+    episode_id = Column(Integer, ForeignKey("episodes.id"), nullable=True)
+    quality = Column(String(50), nullable=False)
     url = Column(String(500), nullable=False)
     
     def __repr__(self):
         return f"Media(id={self.id}, type={self.type}, url={self.url})"
+
+class Subtitle(Base):
+    __tablename__ = "subtitles"
+
+    id = Column(Integer, primary_key=True, index=True)
+    movie_id = Column(Integer, ForeignKey("movies.id"), nullable=True)
+    episode_id = Column(Integer, ForeignKey("episodes.id"), nullable=True)
+    language = Column(String(50), nullable=False)
+    url = Column(String(500), nullable=False)
+    
+    def __repr__(self):
+        return f"Subtitle(id={self.id}, language={self.language}, url={self.url})"
 
 class Movie(Base):
     __tablename__ = "movies"
@@ -68,11 +80,14 @@ class Movie(Base):
     duration = Column(Integer, nullable=False)  # В минутах
     slug = Column(String(255), unique=True, nullable=False)
     created_at = Column(Date, nullable=False, default=func.now())
+    cover_url = Column(String(500), nullable=True)
+    thumbnail_url = Column(String(500), nullable=True)
     
     genres = relationship("Genre", secondary=movie_genre_association, backref="movies")
     actors = relationship("Actor", secondary=movie_actor_association, backref="movies")
     media = relationship("Media", backref="movie")
     statistics = relationship("Statistics", back_populates="movie", uselist=False)
+    subtitles = relationship("Subtitle", backref="movie")
 
     def __repr__(self):
         return f"Movie(id={self.id}, title={self.title}, year={self.year}, duration={self.duration})"
@@ -85,11 +100,12 @@ class Series(Base):
     year = Column(Integer, nullable=True)
     description = Column(String, nullable=True)
     created_at = Column(Date, nullable=False, default=func.now())
+    cover_url = Column(String(500), nullable=True)
+    thumbnail_url = Column(String(500), nullable=True)
     
     genres = relationship("Genre", secondary=series_genre_association, backref="series")
     actors = relationship("Actor", secondary=series_actor_association, backref="series")
     seasons = relationship("Season", back_populates="series")
-    media = relationship("Media", backref="series")
     statistics = relationship("Statistics", back_populates="series", uselist=False)
     
     def __repr__(self):
@@ -117,7 +133,9 @@ class Episode(Base):
     episode_number = Column(Integer, nullable=False)
     duration = Column(Integer, nullable=False)  # В минутах
     release_date = Column(Date, nullable=True)
-    
+
+    media = relationship("Media", backref="episode")
+    subtitles = relationship("Subtitle", backref="episode")
     season = relationship("Season", back_populates="episodes")
     
     def __repr__(self):

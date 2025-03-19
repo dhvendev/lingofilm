@@ -61,4 +61,18 @@ async function getMovies() {
     }
 }
 
-export { getUser, loginUser, logoutUser, getMovieByQuery, getMovies };
+async function  getMovie(slug) {
+    try {
+        const response = await api.post(`/api/movies/getMovie`, { slug }, { withCredentials: true });
+        if (!response.data) {
+            return null;
+        }
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+    
+}
+
+export { getUser, loginUser, logoutUser, getMovieByQuery, getMovies, getMovie };
