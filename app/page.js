@@ -1,4 +1,5 @@
 import MainSlider from "@/components/MainSlider";
+import TopSlider from "@/components/TopSlider";
 import { getMovies } from "@/services/axiosMethods";
 
 export default  async function Home() {
@@ -6,9 +7,7 @@ export default  async function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center">
       <MainSlider movies={movies} />
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
+      <TopSlider movies={movies}/>
     </main>
   );
 }

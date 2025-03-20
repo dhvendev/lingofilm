@@ -55,7 +55,7 @@ export default function MainSlider({movies}) {
                                         <Link href={`/films/${movie.slug}`}> 
                                             <Button className="primary1 rounded">
                                                 <SquarePlay size={50} color="black" strokeWidth={2.5} />
-                                                <span className="ml-2 text-md">Смотрет    ь сейчас</span>
+                                                <span className="ml-2 text-md">Смотреть сейчас</span>
                                             </Button>
                                         </Link>
                                     </div>
@@ -71,8 +71,6 @@ export default function MainSlider({movies}) {
                             </div>}
                             <div className={`absolute top-0 w-full h-0 ${styles.shadowTop} z-10`}></div>
                             <div className={`absolute bottom-0 h-5 bg-black blur-[5] w-full z-10 ${styles.shadowBottom}`}></div>
-            
-                        
                         </CarouselItem>
                     ))}
                 </CarouselContent>
