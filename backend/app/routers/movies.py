@@ -5,6 +5,7 @@ import redis
 import uuid
 from app.core.db import get_db
 from app.crud.movies import get_movie, get_movies, get_movies_for_search
+from typing import Optional
 
 router = APIRouter()
 
@@ -14,14 +15,22 @@ class SearchPayload(BaseModel):
 class MoviePayload(BaseModel):
     slug: str
 
+class FilterPayload(BaseModel):
+    genre: Optional[str] = None
+    actor: Optional[str] = None
+    year: Optional[int] = None
+    difficulty: Optional[str] = None
+    country: Optional[str] = None
+    sort: Optional[str] = None
+
 @router.post('/getMovie')
 async def get_movie_route(movie: MoviePayload, session: AsyncSession = Depends(get_db)):
     data = await get_movie(movie.slug, session)
     return data
 
-@router.get('/getMovies')
-async def get_movies_route(genre:list[str] = Query([]), actor: str=None, start_date: int=None, end_date: int=None, session: AsyncSession = Depends(get_db)):
-    movies = await get_movies(session, genre, actor, start_date, end_date)
+@router.post('/getMovies')
+async def get_movies_route(payload: FilterPayload, session: AsyncSession = Depends(get_db)):
+    movies = await get_movies(session, payload.genre, payload.actor, payload.year, payload.difficulty, payload.country, payload.sort)
     return movies
 
 

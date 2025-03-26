@@ -11,6 +11,7 @@ def generate_movie_data(movie: Movie) -> dict:
         'slug': movie.slug,
         'year': movie.year,
         'description': movie.description,
+        'difficulty': movie.difficulty,
         'duration': movie.duration,
         'cover_url': ("https://s3.lingofilm.ru" + movie.cover_url) if movie.cover_url else None,
         'thumbnail_url': ("https://s3.lingofilm.ru" + movie.thumbnail_url) if movie.thumbnail_url else None,
@@ -45,7 +46,8 @@ async def get_movie(movie_slug: str, session: AsyncSession) -> Optional[dict]:
     data = generate_movie_data(movie)
     return data
 
-async def get_movies(session: AsyncSession, genre:list[str] = [], actor: str=None, start_date: int=None, end_date: int=None) -> Optional[dict]:
+async def get_movies(session: AsyncSession, genre:str=None, actor: str=None, year: int=None, difficulty: str=None, country: str=None, sort: str="-year") -> Optional[dict]:
+    print(difficulty)
     stmt = select(Movie).options(
         joinedload(Movie.genres),
         joinedload(Movie.actors),
@@ -55,14 +57,37 @@ async def get_movies(session: AsyncSession, genre:list[str] = [], actor: str=Non
         joinedload(Movie.countries)
     )
 
-    if start_date and end_date:
-        stmt = stmt.where(Movie.year.between(start_date, end_date))
-    
     if actor:
         stmt = stmt.where(Movie.actors.any(Actor.name.ilike(f"%{actor}%")))
 
     if genre:
-        stmt = stmt.where(Movie.genres.any(Genre.name.in_(genre)))
+        stmt = stmt.where(Movie.genres.any(Genre.name.ilike(f"%{genre}%")))
+
+    if difficulty:
+        stmt = stmt.where(Movie.difficulty == difficulty)
+
+    if year:
+        stmt = stmt.where(Movie.year == year)
+
+    if country:
+        stmt = stmt.where(Movie.countries.any(Country.name.ilike(f"%{country}%")))
+
+    #rating, -rating, year, -year, lexicographical (difficulty: Высокая, средняя, низкая), -lexicographical(difficulty: Низкая, средняя, Высокая)
+    # if sort == 'rating':
+    #     stmt = stmt.order_by(Statistics.likes.desc())  # Сортировка по статистике
+    # elif sort == '-rating':
+    #     stmt = stmt.order_by(Statistics.likes)
+    if sort == 'year':
+        stmt = stmt.order_by(Movie.year)
+    if sort == '-year':
+        stmt = stmt.order_by(Movie.year.desc())
+    if sort == 'lexicographical':
+        stmt = stmt.order_by(Movie.difficulty)
+    if sort == '-lexicographical':
+        stmt = stmt.order_by(Movie.difficulty.desc())
+    
+    if not sort:
+        stmt = stmt.order_by(Movie.year.desc())
 
     res = await session.execute(stmt)
     movies = res.unique().scalars().all()
@@ -71,6 +96,7 @@ async def get_movies(session: AsyncSession, genre:list[str] = [], actor: str=Non
         return None
 
     data = [generate_movie_data(movie) for movie in movies]
+    print(data)
     return data
 
 

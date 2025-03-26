@@ -103,6 +103,7 @@ class Movie(Base):
     created_at = Column(Date, nullable=False, default=func.now())
     cover_url = Column(String(500), nullable=True)
     thumbnail_url = Column(String(500), nullable=True)
+    difficulty = Column(String(50), nullable=False)
     
     genres = relationship("Genre", secondary=movie_genre_association, backref="movies")
     countries = relationship("Country", secondary=movie_country_association, backref="movies")
@@ -124,6 +125,8 @@ class Series(Base):
     created_at = Column(Date, nullable=False, default=func.now())
     cover_url = Column(String(500), nullable=True)
     thumbnail_url = Column(String(500), nullable=True)
+    difficulty = Column(String(50), nullable=False)
+    slug = Column(String(255), unique=True, nullable=False)
     
     genres = relationship("Genre", secondary=series_genre_association, backref="series")
     countries = relationship("Country", secondary=series_country_association, backref="series")
