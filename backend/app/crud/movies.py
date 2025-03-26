@@ -15,6 +15,7 @@ def generate_movie_data(movie: Movie) -> dict:
         'cover_url': ("https://s3.lingofilm.ru" + movie.cover_url) if movie.cover_url else None,
         'thumbnail_url': ("https://s3.lingofilm.ru" + movie.thumbnail_url) if movie.thumbnail_url else None,
         'genres': [genre.name for genre in movie.genres],
+        'countries': [country.name for country in movie.countries],
         'actors': [actor.name for actor in movie.actors],
         'media': [{'quality': media.quality, 'url': "https://s3.lingofilm.ru" + media.url} for media in movie.media],
         'subtitles': [{'language': subtitle.language, 'url': "https://s3.lingofilm.ru" + subtitle.url} for subtitle in movie.subtitles],
@@ -30,7 +31,8 @@ async def get_movie(movie_slug: str, session: AsyncSession) -> Optional[dict]:
             joinedload(Movie.actors),
             joinedload(Movie.media),
             joinedload(Movie.statistics),
-            joinedload(Movie.subtitles)
+            joinedload(Movie.subtitles),
+            joinedload(Movie.countries)
         )
     )
 
@@ -49,7 +51,8 @@ async def get_movies(session: AsyncSession, genre:list[str] = [], actor: str=Non
         joinedload(Movie.actors),
         joinedload(Movie.media),
         joinedload(Movie.statistics),
-        joinedload(Movie.subtitles)
+        joinedload(Movie.subtitles),
+        joinedload(Movie.countries)
     )
 
     if start_date and end_date:
@@ -78,7 +81,8 @@ async def get_movies_for_search(session: AsyncSession, query: str) -> Optional[d
         joinedload(Movie.actors),
         joinedload(Movie.media),
         joinedload(Movie.statistics),
-        joinedload(Movie.subtitles)
+        joinedload(Movie.subtitles),
+        joinedload(Movie.countries)
     )
 
     res = await session.execute(stmt)

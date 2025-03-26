@@ -75,4 +75,30 @@ async function  getMovie(slug) {
     
 }
 
-export { getUser, loginUser, logoutUser, getMovieByQuery, getMovies, getMovie };
+async function getGenres() {
+    try {
+        const response = await api.post(`/api/filters/getGenres`, { withCredentials: true });
+        if (!response.data) {
+            return null;
+        }
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+async function getCountries() {
+    try {
+        const response = await api.post(`/api/filters/getCountries`, { withCredentials: true });
+        if (!response.data) {
+            return null;
+        }
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+export { getUser, loginUser, logoutUser, getMovieByQuery, getMovies, getMovie, getGenres, getCountries };

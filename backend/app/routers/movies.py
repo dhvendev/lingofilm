@@ -25,9 +25,6 @@ async def get_movies_route(genre:list[str] = Query([]), actor: str=None, start_d
     return movies
 
 
-
-
-
 @router.post('/searchMovies')
 async def search_movies_route(payload: SearchPayload, session: AsyncSession = Depends(get_db)):
     movies = await get_movies_for_search(session, payload.query)

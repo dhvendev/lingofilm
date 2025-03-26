@@ -15,6 +15,18 @@ series_genre_association = Table(
     Column("genre_id", Integer, ForeignKey("genres.id"), primary_key=True)
 )
 
+movie_country_association = Table(
+    "movie_country", Base.metadata,
+    Column("movie_id", Integer, ForeignKey("movies.id"), primary_key=True),
+    Column("country_id", Integer, ForeignKey("countries.id"), primary_key=True)
+)
+
+series_country_association = Table(
+    "series_country", Base.metadata,
+    Column("series_id", Integer, ForeignKey("series.id"), primary_key=True),
+    Column("country_id", Integer, ForeignKey("countries.id"), primary_key=True)
+)
+
 movie_actor_association = Table(
     "movie_actor", Base.metadata,
     Column("movie_id", Integer, ForeignKey("movies.id"), primary_key=True),
@@ -35,6 +47,15 @@ class Genre(Base):
     
     def __repr__(self):
         return f"Genre(id={self.id}, name={self.name})"
+    
+class Country(Base):
+    __tablename__ = "countries"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(100), unique=True, nullable=False)
+    
+    def __repr__(self):
+        return f"Country(id={self.id}, name={self.name})"
 
 class Actor(Base):
     __tablename__ = "actors"
@@ -84,6 +105,7 @@ class Movie(Base):
     thumbnail_url = Column(String(500), nullable=True)
     
     genres = relationship("Genre", secondary=movie_genre_association, backref="movies")
+    countries = relationship("Country", secondary=movie_country_association, backref="movies")
     actors = relationship("Actor", secondary=movie_actor_association, backref="movies")
     media = relationship("Media", backref="movie")
     statistics = relationship("Statistics", back_populates="movie", uselist=False)
@@ -104,6 +126,7 @@ class Series(Base):
     thumbnail_url = Column(String(500), nullable=True)
     
     genres = relationship("Genre", secondary=series_genre_association, backref="series")
+    countries = relationship("Country", secondary=series_country_association, backref="series")
     actors = relationship("Actor", secondary=series_actor_association, backref="series")
     seasons = relationship("Season", back_populates="series")
     statistics = relationship("Statistics", back_populates="series", uselist=False)
