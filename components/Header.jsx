@@ -18,21 +18,21 @@ export default function Header() {
     console.log("берется из контекста", user);
     return (
         <header className="w-[95vw] md:w-[90vw] lg:w-[80vw] absolute top-0 bg-opacity-15 py-5 md:py-10 z-10 grid grid-cols-2 md:grid-cols-3 items-center">
-            <h1 className="flex font-bold text-lg">
+            <h1 className="flex font-bold text-lg items-center">
                 <Link href={'/#'} className="flex flex-row">
                     <TvMinimalPlay size={30} className="mr-2"/>
                     Lingo<span className="text-green-500">Film</span>
                 </Link>
             </h1>
 
-            <div className="flex justify-end md:hidden">
+            <div className="flex justify-end md:hidden items-center">
                 <Button className="bg-green-500" onClick={() => setIsOpen(!isOpen)}>
                     {isOpen ? <X size={35} color="black"/> : <Menu size={35} color="black"/>}
                 </Button>
             </div>
 
 
-            <ul className={`absolute top-[60px] left-0 w-full bg-black bg-opacity-90 p-5 md:static md:flex md:justify-center md:gap-5 md:bg-transparent md:p-0 bg-white md:bg-opacity-0 text-black md:text-white rounded-md font-bold
+            <ul className={`absolute md:relative top-[60px] left-0 w-full bg-black bg-opacity-90 p-5 md:static md:flex md:justify-center md:gap-5 md:bg-transparent md:p-0 items-center bg-white md:bg-opacity-0 text-black md:text-white rounded-md font-bold
                 ${isOpen ? "block" : "hidden"}`}>
                 <li><Link href="/" className="hover:text-green-500 duration-75 hover:border-b-2 pb-1 hover:border-green-500">Главная</Link></li>
                 <li><Link href="/films" className="hover:text-green-500 duration-75 hover:border-b-2 pb-1 hover:border-green-500">Фильмы</Link></li>
@@ -41,7 +41,7 @@ export default function Header() {
             </ul>
 
 
-            <div className="flex col-span-2 md:col-span-1 justify-center md:justify-end py-2 gap-2 md:py-0">
+            <div className="flex col-span-2 md:col-span-1 justify-center md:justify-end py-2 gap-2 md:py-0 items-center">
                 <SearchComponent />
                 <ModeToggle></ModeToggle>
                 {user ? <ProfileBar /> : <LoginForm />}

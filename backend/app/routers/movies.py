@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 import redis
 import uuid
 from app.core.db import get_db
-from app.crud.movies import get_movie, get_movies, get_movies_for_search
+from app.crud.movies import get_movie, get_movies, get_movies_for_search, get_movies_by_filter
 from typing import Optional
 
 router = APIRouter()
@@ -29,8 +29,14 @@ async def get_movie_route(movie: MoviePayload, session: AsyncSession = Depends(g
     return data
 
 @router.post('/getMovies')
-async def get_movies_route(payload: FilterPayload, session: AsyncSession = Depends(get_db)):
-    movies = await get_movies(session, payload.genre, payload.actor, payload.year, payload.difficulty, payload.country, payload.sort)
+async def get_movies_route(session: AsyncSession = Depends(get_db)):
+    data = await get_movies(session)
+    return data
+
+@router.post('/getMoviesByFilter')
+async def get_movies_for_filter_route(payload: FilterPayload, session: AsyncSession = Depends(get_db)):
+    movies = await get_movies_by_filter(session, payload.genre, payload.actor, payload.year, payload.difficulty, payload.country, payload.sort)
+    print(movies)
     return movies
 
 

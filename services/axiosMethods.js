@@ -47,10 +47,23 @@ async function getMovieByQuery(query) {
         return [];
     }
 }
-
 async function getMovies() {
     try {
-        const response = await api.get(`/api/movies/getMovies`, { withCredentials: true });
+        const response = await api.post(`/api/movies/getMovies`, {}, { withCredentials: true });
+        if (!response.data) {
+            return [];
+        }
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
+
+async function getMoviesByFilter(payload) {
+    console.log(payload);
+    try {
+        const response = await api.post(`/api/movies/getMoviesByFilter`, { country: payload.country, genre: payload.genre, year: payload.year, actor: payload.actor, difficulty: payload.difficulty, sort: payload.sort }, { withCredentials: true });
         if (!response.data) {
             return [];
         }
@@ -101,4 +114,4 @@ async function getCountries() {
     }
 }
 
-export { getUser, loginUser, logoutUser, getMovieByQuery, getMovies, getMovie, getGenres, getCountries };
+export { getUser, loginUser, logoutUser, getMovieByQuery, getMovies, getMoviesByFilter, getMovie, getGenres, getCountries };

@@ -46,7 +46,30 @@ async def get_movie(movie_slug: str, session: AsyncSession) -> Optional[dict]:
     data = generate_movie_data(movie)
     return data
 
-async def get_movies(session: AsyncSession, genre:str=None, actor: str=None, year: int=None, difficulty: str=None, country: str=None, sort: str="-year") -> Optional[dict]:
+async def get_movies(session: AsyncSession) -> Optional[dict]:
+    stmt = (
+        select(Movie)
+        .options(
+            joinedload(Movie.genres),
+            joinedload(Movie.actors),
+            joinedload(Movie.media),
+            joinedload(Movie.statistics),
+            joinedload(Movie.subtitles),
+            joinedload(Movie.countries)
+        )
+    )
+
+    res = await session.execute(stmt)
+    movies = res.unique().scalars().all()
+
+    if not movies:
+        return None
+
+    data = [generate_movie_data(movie) for movie in movies]
+    return data
+
+
+async def get_movies_by_filter(session: AsyncSession, genre:str=None, actor: str=None, year: int=None, difficulty: str=None, country: str=None, sort: str="-year") -> Optional[dict]:
     print(difficulty)
     stmt = select(Movie).options(
         joinedload(Movie.genres),

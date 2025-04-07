@@ -18,3 +18,7 @@ app.add_middleware(
 app.include_router(users_router, prefix='/api/users')
 app.include_router(movies_router, prefix='/api/movies')
 app.include_router(filters_router, prefix='/api/filters')
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
