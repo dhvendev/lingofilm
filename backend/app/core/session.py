@@ -1,5 +1,5 @@
 from typing import Optional, Union
-from app.core.redis_client import redis_client
+from app.core.redis_connections import redis_client
 from redis.asyncio.client import RedisError
 from app.core.logger import logger
 from datetime import datetime

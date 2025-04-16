@@ -2,6 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.users import User, Subscription,  UserSubscription
 from typing import Optional
+from app.core.security import verify_password
 
 def generate_user_data(user: User, user_subscription: UserSubscription=None, subscription: Subscription=None):
     data = {
@@ -28,13 +29,31 @@ async def get_user(user_id: int, session: AsyncSession) -> Optional[dict]:
     data = generate_user_data(*data)
     return data
 
+async def get_user_by_email(email: str, session: AsyncSession) -> Optional[User]:
+    """Получение полной модели пользователя по email"""
+    stmt = select(User).where(User.email == email)
+    res = await session.execute(stmt)
+    user = res.scalars().first()
+    return user
 
 async def get_user_with_pass(email: str, password: str, session: AsyncSession) -> Optional[dict]:
-    stmt = select(User, UserSubscription, Subscription).outerjoin(UserSubscription, User.id == UserSubscription.user_id).outerjoin(Subscription, UserSubscription.subscription_id == Subscription.id).where(User.email == email, User.hashed_password == password)
+    user = await get_user_by_email(email, session)
+    
+    if not user or not verify_password(password, user.hashed_password):
+        return None
+    
+    stmt = select(User, UserSubscription, Subscription).outerjoin(
+        UserSubscription, User.id == UserSubscription.user_id
+    ).outerjoin(
+        Subscription, UserSubscription.subscription_id == Subscription.id
+    ).where(User.id == user.id)
+    
     res = await session.execute(stmt)
     data = res.first()
+    
     if not data:
-        return None
+        return generate_user_data(user)
+    
     data = generate_user_data(*data)
     return data
 
@@ -48,9 +67,9 @@ async def check_subscription(user_id: int, session: AsyncSession) -> Optional[di
     user_subscription, subscription = data
     data = {
         'subscription': {
-                'sub_type' : subscription.subscription_type,
-                'expire' : user_subscription.end_date,
-                'is_active' : user_subscription.is_active
+            'sub_type' : subscription.subscription_type,
+            'expire' : user_subscription.end_date,
+            'is_active' : user_subscription.is_active
         } if data else {}
     }
     return data

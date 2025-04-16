@@ -6,6 +6,7 @@ from app.core.db import get_db
 from app.crud.users import get_user, get_user_with_pass, check_subscription
 from app.core.logger import logger
 from app.core.session import SessionManager as redis_manager
+from app.core.security import get_password_hash
 
 router = APIRouter()
 
