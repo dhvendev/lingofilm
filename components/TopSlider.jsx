@@ -6,8 +6,13 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel";
 import MovieCard from "./movie-card-top-slide";
+import { getMovies } from "@/services/axiosMethods";
 
-export default function TopSlider({ movies }) {
+
+// Top Slider with films by week
+// TODO: Change api method for get top movies, now it returns all movies
+export default async function TopSlider() {
+    const movies = await getMovies();
     return (
         <div className="flex flex-col gap-6 w-full">
             <h2 className="ml-[10vw] font-semibold text-2xl">Топ за неделю</h2>

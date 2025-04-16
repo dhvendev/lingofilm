@@ -6,6 +6,8 @@ import { cookies } from "next/headers";
 import { UserProvider } from "@/context/userContext";
 import { ThemeProvider } from "@/components/themeProvider"
 import Footer from "@/components/Footer";
+import { Suspense } from "react";
+import { FooterSkeleton } from "@/components/SkeletonLoader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,9 +39,9 @@ export default async function RootLayout({ children }) {
               <Header />
             </main>
             {children}
-            <footer className="w-[100vw] md:w-[80vw] lg:w-[80vw] xl:w-[80vw] flex flex-row justify-between pb-20 pt-10 mt-20 border-t-2 border-t-gray-900 mx-auto">
+            <Suspense fallback={<FooterSkeleton />}>
               <Footer />
-            </footer>
+            </Suspense>
           </ThemeProvider>
         </UserProvider>
       </body>

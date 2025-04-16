@@ -4,8 +4,10 @@ import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carouse
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import styles from "@/styles/MainSlider.module.css";
+import { getMovies } from "@/services/axiosMethods";
 
-export default function MainSlider({movies}) {
+export default async function MainSlider() {
+    const movies = await getMovies()
     movies?.forEach((movie) => {
         const subtitleLanguages = movie.subtitles?.map(sub => sub.language) || [];
         
