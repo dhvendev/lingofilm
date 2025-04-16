@@ -1,8 +1,7 @@
-from fastapi import Request, Cookie, HTTPException, status, Depends
-from typing import Optional, Callable, Dict, Any
-import redis
-from functools import wraps
+from typing import Optional
 from app.core.redis_client import redis_client
+from redis.asyncio.client import RedisError
+from app.core.logger import logger
 
 class SessionManager:
     """
@@ -20,9 +19,13 @@ class SessionManager:
         Returns:
             Optional[str]: The user ID associated with the session ID, or None if not found.
         """
-        if not session_id:
+        try:
+            if not session_id:
+                return None
+            return await redis_client.hget(f"session:{session_id}", "user_id")
+        except RedisError as e:
+            logger.error(f"Redis error: {e}")
             return None
-        return await redis_client.hget(f"session:{session_id}", "user_id")
     
     @staticmethod
     async def validate_session(session_id: str) -> bool:
@@ -35,10 +38,14 @@ class SessionManager:
         Returns:
             bool: True if the session ID exists, False otherwise.
         """
-        if not session_id:
+        try:
+            if not session_id:
+                return False
+            sessions = await redis_client.exists(f"session:{session_id}")
+            return bool(sessions)
+        except RedisError as e:
+            logger.error(f"Redis error: {e}")
             return False
-        sessions = await redis_client.exists(f"session:{session_id}")
-        return bool(sessions)
     
     @staticmethod
     async def delete_session(session_id: str) -> bool:
@@ -51,15 +58,19 @@ class SessionManager:
         Returns:
             bool: True if the session ID was deleted, False otherwise.
         """
-        if not session_id:
+        try:
+            if not session_id:
+                return False
+            
+            user_id = await redis_client.hget(f"session:{session_id}", "user_id")
+            if user_id:
+                await redis_client.srem(f"user_sessions:{user_id}", session_id)
+            
+            await redis_client.delete(f"session:{session_id}")
+            return True
+        except RedisError as e:
+            logger.error(f"Redis error: {e}")
             return False
-        
-        user_id = await redis_client.hget(f"session:{session_id}", "user_id")
-        if user_id:
-            await redis_client.srem(f"user_sessions:{user_id}", session_id)
-        
-        await redis_client.delete(f"session:{session_id}")
-        return True
     
     @staticmethod
     async def create_session(user_id: str, session_id: str, user_agent: str, expire_time: int = 3600) -> bool:
@@ -74,21 +85,25 @@ class SessionManager:
         Returns:
             bool: True if the session was created, False otherwise.
         """
-        if not user_id or not session_id:
+        try:
+            if not user_id or not session_id:
+                return False
+            
+
+            await redis_client.sadd(f"user_sessions:{user_id}", session_id)
+            await redis_client.hset(f"session:{session_id}", mapping={
+                "user_id": user_id,
+                "user_agent": user_agent,
+                "created_at": redis_client.time()[0]
+            })
+            
+
+            await redis_client.expire(f"session:{session_id}", expire_time)
+            await redis_client.expire(f"user_sessions:{user_id}", expire_time)
+            return True
+        except RedisError as e:
+            logger.error(f"Redis error: {e}")
             return False
-        
-
-        await redis_client.sadd(f"user_sessions:{user_id}", session_id)
-        await redis_client.hset(f"session:{session_id}", mapping={
-            "user_id": user_id,
-            "user_agent": user_agent,
-            "created_at": redis_client.time()[0]
-        })
-        
-
-        await redis_client.expire(f"session:{session_id}", expire_time)
-        await redis_client.expire(f"user_sessions:{user_id}", expire_time)
-        return True
     
     @staticmethod
     async def refresh_session(session_id: str, expire_time: int = 3600) -> bool:
@@ -102,16 +117,20 @@ class SessionManager:
         Returns:
             bool: True if the session was refreshed, False otherwise.
         """
-        if not session_id:
+        try:
+            if not session_id:
+                return False
+            user_id = await redis_client.hget(f"session:{session_id}", "user_id")
+            if not user_id:
+                return False
+            
+            # Обновляем время жизни
+            await redis_client.expire(f"session:{session_id}", expire_time)
+            await redis_client.expire(f"user_sessions:{user_id}", expire_time)
+            return True
+        except RedisError as e:
+            logger.error(f"Redis error: {e}")
             return False
-        user_id = await redis_client.hget(f"session:{session_id}", "user_id")
-        if not user_id:
-            return False
-        
-        # Обновляем время жизни
-        await redis_client.expire(f"session:{session_id}", expire_time)
-        await redis_client.expire(f"user_sessions:{user_id}", expire_time)
-        return True
     
     @staticmethod
     async def get_all_user_sessions(user_id: str) -> list[str]:
@@ -124,9 +143,13 @@ class SessionManager:
         Returns:
             list[str]: A list of session IDs associated with the user ID.
         """
-        if not user_id:
+        try:
+            if not user_id:
+                return []
+            return list(await redis_client.smembers(f"user_sessions:{user_id}"))
+        except RedisError as e:
+            logger.error(f"Redis error: {e}")
             return []
-        return list(await redis_client.smembers(f"user_sessions:{user_id}"))
     
     @staticmethod
     async def delete_all_user_sessions_except_current(user_id: str, except_session_id: str) -> int:
@@ -140,19 +163,23 @@ class SessionManager:
         Returns:
             int: The number of sessions deleted.
         """
-        if not user_id:
+        try:
+            if not user_id:
+                return 0
+            
+            sessions = redis_client.smembers(f"user_sessions:{user_id}")
+            count = 0
+            
+            for session_id in sessions:
+                if session_id != except_session_id:
+                    redis_client.delete(f"session:{session_id}")
+                    count += 1
+            
+            redis_client.delete(f"user_sessions:{user_id}")
+            if except_session_id:
+                redis_client.sadd(f"user_sessions:{user_id}", except_session_id)
+            
+            return count
+        except RedisError as e:
+            logger.error(f"Redis error: {e}")
             return 0
-        
-        sessions = redis_client.smembers(f"user_sessions:{user_id}")
-        count = 0
-        
-        for session_id in sessions:
-            if session_id != except_session_id:
-                redis_client.delete(f"session:{session_id}")
-                count += 1
-        
-        redis_client.delete(f"user_sessions:{user_id}")
-        if except_session_id:
-            redis_client.sadd(f"user_sessions:{user_id}", except_session_id)
-        
-        return count

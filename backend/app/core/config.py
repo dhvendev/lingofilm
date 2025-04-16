@@ -2,8 +2,9 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     DATABASE_URL: str
-    SSL_CERTFILE: str = None
-    SSL_KEYFILE: str = None
+    REDIS_HOST: str
+    REDIS_PORT: int
+    REDIS_DB: int
 
     class Config:
         env_file = ".env"
