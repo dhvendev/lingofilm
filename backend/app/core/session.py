@@ -1,7 +1,8 @@
-from typing import Optional
+from typing import Optional, Union
 from app.core.redis_client import redis_client
 from redis.asyncio.client import RedisError
 from app.core.logger import logger
+from datetime import datetime
 
 class SessionManager:
     """
@@ -94,7 +95,7 @@ class SessionManager:
             await redis_client.hset(f"session:{session_id}", mapping={
                 "user_id": user_id,
                 "user_agent": user_agent,
-                "created_at": redis_client.time()[0]
+                "created_at": int(datetime.now().timestamp())
             })
             
 

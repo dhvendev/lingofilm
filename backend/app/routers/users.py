@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Response, Request, HTTPException, Depends, Cookie
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
-import redis
 import uuid
 from app.core.db import get_db
 from app.crud.users import get_user, get_user_with_pass, check_subscription
+from app.core.logger import logger
+from app.core.session import SessionManager as redis_manager
 
 router = APIRouter()
-redis_client = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
 
 
 class LoginUser(BaseModel):
@@ -17,62 +17,114 @@ class LoginUser(BaseModel):
 
 @router.post('/authenticate')
 async def authenticate(user: LoginUser, response: Response, request: Request, session: AsyncSession = Depends(get_db)):
+    """
+    Authenticate a user and return the user data and set a session cookie
+
+    Args:
+        user (LoginUser): The user credentials
+        response (Response): The response object
+        request (Request): The request object
+        session (AsyncSession, optional): The database session. Defaults to Depends(get_db).
+
+    Returns:
+        dict: The user data
+
+    Raises:
+        HTTPException: If the user is not found
+    """
     user = await get_user_with_pass(user.email, user.password, session)
     if not user:
         raise HTTPException(status_code=409, detail="User not found")
-    print(user)
     session_id = str(uuid.uuid4())
-    redis_client.sadd(f"user_sessions:{user.get('id')}", session_id)
-    redis_client.hset(f"session:{session_id}", mapping={
-        "user_id": user.get('id'),
-        "user_agent": request.headers.get("User-Agent", "Unknown")
-    })
-    redis_client.expire(f"session:{session_id}", 3600)
-    redis_client.expire(f"user_sessions:{user.get('email')}", 3600)
+    is_created = await redis_manager.create_session(user.get('id'), session_id, request.headers.get("User-Agent", "Unknown"))
+    if not is_created:
+        raise HTTPException(status_code=500)
+    #TODO: edit same site
     response.set_cookie(key="session_id", value=session_id, httponly=True, max_age=3600, secure=True, samesite="None")
     return user
 
 
 @router.post('/logout')
 async def logout(response: Response, session_id: str = Cookie(default=None)):
+    """
+    Logout a user and delete the session
+
+    Args:
+        response (Response): The response object
+        session_id (str, optional): The session ID. Defaults to None.
+
+    Returns:
+        dict: Message indicating successful logout
+
+    Raises:
+        HTTPException: If the user is not authenticated
+    """
     if not session_id:
         raise HTTPException(status_code=401, detail="Unauthorized")
-    email = redis_client.hget(f"session:{session_id}", "email")
-    redis_client.srem(f"user_sessions:{email}", session_id)
-    redis_client.delete(f"session:{session_id}")
+    await redis_manager.delete_session(session_id)
     response.delete_cookie(key="session_id")
-    return {"message": "Logout successful"}
+    return {"detail": "Logout successful"}
 
 
 @router.post('/getUser')
 async def get_user_post(response: Response, session_id: str = Cookie(default=None), session: AsyncSession = Depends(get_db)):
+    """
+    Get user data
+
+    Args:
+        response (Response): The response object
+        session_id (str, optional): The session ID. Defaults to None.
+
+    Returns:
+        dict: The user data
+
+    Raises:
+        HTTPException: If the user is not authenticated or if the user is not found
+    """
     if not session_id:
         raise HTTPException(status_code=401, detail="Unauthorized")
     
-    user_id = redis_client.hget(f"session:{session_id}", "user_id")
+    user_id = await redis_manager.get_user_id_from_session(session_id)
     if not user_id:
         response.delete_cookie(key="session_id")
         raise HTTPException(status_code=401, detail="Unauthorized", headers=response.headers)
     
     user_data = await get_user(int(user_id), session)
     if not user_data:
-        raise HTTPException(status_code=500, detail="Please contact tg:@plymv about this incident")
+        await redis_manager.delete_session(session_id)
+        logger.error(f"User with id {user_id} not found")
+        response.delete_cookie(key="session_id")
+        raise HTTPException(status_code=500, detail="User not found", headers=response.headers)
     return user_data
 
 
 @router.post('/checkSubscription')
 async def get_user_post(response: Response, session_id: str = Cookie(default=None), session: AsyncSession = Depends(get_db)):
+    """
+    Get user data
+
+    Args:
+        response (Response): The response object
+        session_id (str, optional): The session ID. Defaults to None.
+
+    Returns:
+        dict: The user data
+
+    Raises:
+        HTTPException: If the user is not authenticated or if the user is not found
+    """
     if not session_id:
         raise HTTPException(status_code=401, detail="Unauthorized")
 
-    user_id = redis_client.hget(f"session:{session_id}", "user_id")
+    user_id = await redis_manager.get_user_id_from_session(session_id)
     if not user_id:
         response.delete_cookie(key="session_id")
         raise HTTPException(status_code=401, detail="Unauthorized", headers=response.headers)
     
     user_data = await check_subscription(int(user_id), session)
     if not user_data:
-        raise HTTPException(status_code=500, detail="Please contact tg:@plymv about this incident")
+        response.delete_cookie(key="session_id")
+        raise HTTPException(status_code=500, detail="User not found", headers=response.headers)
     return user_data
 
 

@@ -23,21 +23,7 @@ app.include_router(filters_router, prefix='/api/filters')
 
 if __name__ == "__main__":
     import uvicorn
-    # from app.core.config import settings
-    
-    # ssl_keyfile = settings.SSL_KEYFILE
-    # ssl_certfile = settings.SSL_CERTFILE
-    
-    # if ssl_keyfile and ssl_certfile:
-    #     uvicorn.run(
-    #         "app.main:app",
-    #         host="0.0.0.0",
-    #         port=8000,
-    #         ssl_keyfile=ssl_keyfile,
-    #         ssl_certfile=ssl_certfile,
-    #         reload=True
-    #     )
-    # else:
+
     uvicorn.run(
         "app.main:app",
         host="0.0.0.0",
