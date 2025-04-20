@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Установка необходимых пакетов
 RUN apt-get update && apt-get install -y \
-    postgresql-dev \
+    libpq-dev \
     postgresql-client \
     gcc \
     python3-dev
