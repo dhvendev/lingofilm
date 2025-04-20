@@ -3,6 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.users import User, Subscription,  UserSubscription
 from typing import Optional
 from app.core.security import verify_password
+from app.core.logger import logger
+from app.schemas.user import CreateUserModel
 
 def generate_user_data(user: User, user_subscription: UserSubscription=None, subscription: Subscription=None):
     data = {
@@ -73,3 +75,12 @@ async def check_subscription(user_id: int, session: AsyncSession) -> Optional[di
         } if data else {}
     }
     return data
+
+
+async def create_user(user: CreateUserModel, session: AsyncSession) -> User:
+    print(user)
+    db_user = User(email=user.email, hashed_password=user.password, username=user.username, gender=user.gender, date_of_birth=user.date_of_birth)
+    session.add(db_user)
+    await session.commit()
+    await session.refresh(db_user)
+    return db_user

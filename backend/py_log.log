@@ -1,264 +1,181 @@
-2025-04-16 21:43:42 INFO [sqlalchemy.engine.Engine]: select pg_catalog.version()
-2025-04-16 21:43:42 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:43:42 INFO [sqlalchemy.engine.Engine]: select current_schema()
-2025-04-16 21:43:42 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:43:42 INFO [sqlalchemy.engine.Engine]: show standard_conforming_strings
-2025-04-16 21:43:42 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:43:42 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 21:43:42 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.email = $1::VARCHAR AND users.hashed_password = $2::VARCHAR
-2025-04-16 21:43:42 INFO [sqlalchemy.engine.Engine]: [generated in 0.00072s] ('dhvendev@gmail.com', 'test')
-2025-04-16 21:43:42 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 21:44:01 INFO [sqlalchemy.engine.Engine]: select pg_catalog.version()
-2025-04-16 21:44:01 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:44:01 INFO [sqlalchemy.engine.Engine]: select current_schema()
-2025-04-16 21:44:01 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:44:01 INFO [sqlalchemy.engine.Engine]: show standard_conforming_strings
-2025-04-16 21:44:01 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:44:01 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 21:44:02 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.email = $1::VARCHAR AND users.hashed_password = $2::VARCHAR
-2025-04-16 21:44:02 INFO [sqlalchemy.engine.Engine]: [generated in 0.00035s] ('dhvendev@gmail.com', 'test')
-2025-04-16 21:44:02 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 21:45:33 INFO [sqlalchemy.engine.Engine]: select pg_catalog.version()
-2025-04-16 21:45:33 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:45:33 INFO [sqlalchemy.engine.Engine]: select current_schema()
-2025-04-16 21:45:33 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:45:33 INFO [sqlalchemy.engine.Engine]: show standard_conforming_strings
-2025-04-16 21:45:33 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:45:33 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 21:45:33 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.email = $1::VARCHAR AND users.hashed_password = $2::VARCHAR
-2025-04-16 21:45:33 INFO [sqlalchemy.engine.Engine]: [generated in 0.00035s] ('dhvendev@gmail.com', 'test')
-2025-04-16 21:45:33 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 21:45:51 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 21:45:51 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.email = $1::VARCHAR AND users.hashed_password = $2::VARCHAR
-2025-04-16 21:45:51 INFO [sqlalchemy.engine.Engine]: [cached since 18.25s ago] ('dhvendev@gmail.com', 'test')
-2025-04-16 21:45:51 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 21:51:05 INFO [sqlalchemy.engine.Engine]: select pg_catalog.version()
-2025-04-16 21:51:05 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:51:05 INFO [sqlalchemy.engine.Engine]: select current_schema()
-2025-04-16 21:51:05 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:51:05 INFO [sqlalchemy.engine.Engine]: show standard_conforming_strings
-2025-04-16 21:51:05 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:51:05 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 21:51:05 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.email = $1::VARCHAR AND users.hashed_password = $2::VARCHAR
-2025-04-16 21:51:05 INFO [sqlalchemy.engine.Engine]: [generated in 0.00034s] ('dhvendev@gmail.com', 'test')
-2025-04-16 21:51:05 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 21:55:14 INFO [sqlalchemy.engine.Engine]: select pg_catalog.version()
-2025-04-16 21:55:14 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:55:14 INFO [sqlalchemy.engine.Engine]: select current_schema()
-2025-04-16 21:55:14 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:55:14 INFO [sqlalchemy.engine.Engine]: show standard_conforming_strings
-2025-04-16 21:55:14 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:55:14 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 21:55:14 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.email = $1::VARCHAR AND users.hashed_password = $2::VARCHAR
-2025-04-16 21:55:14 INFO [sqlalchemy.engine.Engine]: [generated in 0.00039s] ('dhvendev@gmail.com', 'test')
-2025-04-16 21:55:14 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 21:55:54 INFO [sqlalchemy.engine.Engine]: select pg_catalog.version()
-2025-04-16 21:55:54 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:55:54 INFO [sqlalchemy.engine.Engine]: select current_schema()
-2025-04-16 21:55:54 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:55:54 INFO [sqlalchemy.engine.Engine]: show standard_conforming_strings
-2025-04-16 21:55:54 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 21:55:54 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 21:55:54 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.email = $1::VARCHAR AND users.hashed_password = $2::VARCHAR
-2025-04-16 21:55:54 INFO [sqlalchemy.engine.Engine]: [generated in 0.00034s] ('dhvendev@gmail.com', 'test')
-2025-04-16 21:55:54 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 21:57:49 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 21:57:49 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.email = $1::VARCHAR AND users.hashed_password = $2::VARCHAR
-2025-04-16 21:57:49 INFO [sqlalchemy.engine.Engine]: [cached since 114.8s ago] ('dhvendev@gmail.com', 'test')
-2025-04-16 21:57:49 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 21:58:23 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 21:58:23 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.email = $1::VARCHAR AND users.hashed_password = $2::VARCHAR
-2025-04-16 21:58:23 INFO [sqlalchemy.engine.Engine]: [cached since 149.3s ago] ('dhvendev@gmail.com', 'test')
-2025-04-16 21:58:23 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 22:03:09 INFO [sqlalchemy.engine.Engine]: select pg_catalog.version()
-2025-04-16 22:03:09 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:03:09 INFO [sqlalchemy.engine.Engine]: select current_schema()
-2025-04-16 22:03:09 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:03:09 INFO [sqlalchemy.engine.Engine]: show standard_conforming_strings
-2025-04-16 22:03:09 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:03:09 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 22:03:09 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.email = $1::VARCHAR AND users.hashed_password = $2::VARCHAR
-2025-04-16 22:03:09 INFO [sqlalchemy.engine.Engine]: [generated in 0.00044s] ('dhvendev@gmail.com', 'test')
-2025-04-16 22:03:09 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 22:03:26 INFO [sqlalchemy.engine.Engine]: select pg_catalog.version()
-2025-04-16 22:03:26 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:03:26 INFO [sqlalchemy.engine.Engine]: select current_schema()
-2025-04-16 22:03:26 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:03:26 INFO [sqlalchemy.engine.Engine]: show standard_conforming_strings
-2025-04-16 22:03:26 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:03:26 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 22:03:26 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.id = $1::INTEGER
-2025-04-16 22:03:26 INFO [sqlalchemy.engine.Engine]: [generated in 0.00035s] (2,)
-2025-04-16 22:03:26 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 22:04:23 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 22:04:23 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.id = $1::INTEGER
-2025-04-16 22:04:23 INFO [sqlalchemy.engine.Engine]: [cached since 57.62s ago] (2,)
-2025-04-16 22:04:23 ERROR [root]: User with id 2 not found
-2025-04-16 22:04:23 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 22:30:57 INFO [sqlalchemy.engine.Engine]: select pg_catalog.version()
-2025-04-16 22:30:57 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:30:57 INFO [sqlalchemy.engine.Engine]: select current_schema()
-2025-04-16 22:30:57 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:30:57 INFO [sqlalchemy.engine.Engine]: show standard_conforming_strings
-2025-04-16 22:30:57 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:30:57 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 22:30:57 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.email = $1::VARCHAR AND users.hashed_password = $2::VARCHAR
-2025-04-16 22:30:57 INFO [sqlalchemy.engine.Engine]: [generated in 0.00049s] ('dhvendev@gmail.com', 'test')
-2025-04-16 22:30:57 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 22:33:31 DEBUG [passlib.utils.compat]: loaded lazy attr 'SafeConfigParser': <class 'configparser.ConfigParser'>
-2025-04-16 22:33:31 DEBUG [passlib.utils.compat]: loaded lazy attr 'NativeStringIO': <class '_io.StringIO'>
-2025-04-16 22:33:31 DEBUG [passlib.utils.compat]: loaded lazy attr 'BytesIO': <class '_io.BytesIO'>
-2025-04-16 22:33:31 DEBUG [passlib.registry]: registered 'bcrypt' handler: <class 'passlib.handlers.bcrypt.bcrypt'>
-2025-04-16 22:33:38 DEBUG [passlib.utils.compat]: loaded lazy attr 'SafeConfigParser': <class 'configparser.ConfigParser'>
-2025-04-16 22:33:38 DEBUG [passlib.utils.compat]: loaded lazy attr 'NativeStringIO': <class '_io.StringIO'>
-2025-04-16 22:33:38 DEBUG [passlib.utils.compat]: loaded lazy attr 'BytesIO': <class '_io.BytesIO'>
-2025-04-16 22:33:38 DEBUG [passlib.registry]: registered 'bcrypt' handler: <class 'passlib.handlers.bcrypt.bcrypt'>
-2025-04-16 22:33:41 DEBUG [passlib.utils.compat]: loaded lazy attr 'SafeConfigParser': <class 'configparser.ConfigParser'>
-2025-04-16 22:33:41 DEBUG [passlib.utils.compat]: loaded lazy attr 'NativeStringIO': <class '_io.StringIO'>
-2025-04-16 22:33:41 DEBUG [passlib.utils.compat]: loaded lazy attr 'BytesIO': <class '_io.BytesIO'>
-2025-04-16 22:33:41 DEBUG [passlib.registry]: registered 'bcrypt' handler: <class 'passlib.handlers.bcrypt.bcrypt'>
-2025-04-16 22:33:53 DEBUG [passlib.handlers.bcrypt]: bcrypt 'builtin' backend not enabled via $PASSLIB_BUILTIN_BCRYPT
-2025-04-16 22:34:07 DEBUG [passlib.utils.compat]: loaded lazy attr 'SafeConfigParser': <class 'configparser.ConfigParser'>
-2025-04-16 22:34:07 DEBUG [passlib.utils.compat]: loaded lazy attr 'NativeStringIO': <class '_io.StringIO'>
-2025-04-16 22:34:07 DEBUG [passlib.utils.compat]: loaded lazy attr 'BytesIO': <class '_io.BytesIO'>
-2025-04-16 22:34:07 DEBUG [passlib.registry]: registered 'bcrypt' handler: <class 'passlib.handlers.bcrypt.bcrypt'>
-2025-04-16 22:34:11 WARNING [passlib.handlers.bcrypt]: (trapped) error reading bcrypt version
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: select pg_catalog.version()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: select current_schema()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: show standard_conforming_strings
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [generated in 0.00055s] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [cached since 0.004092s ago] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [cached since 0.00694s ago] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [cached since 0.01072s ago] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [cached since 0.02674s ago] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [cached since 0.0599s ago] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [cached since 0.2196s ago] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [cached since 0.2207s ago] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [cached since 0.2214s ago] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [cached since 0.2224s ago] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [cached since 0.4763s ago] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [cached since 0.4778s ago] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [cached since 0.4787s ago] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [cached since 0.4796s ago] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: [cached since 0.4803s ago] ()
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 14:59:55 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:08 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:08 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at 
+FROM users 
+WHERE users.email = $1::VARCHAR
+2025-04-20 15:00:08 INFO [sqlalchemy.engine.Engine]: [generated in 0.00021s] ('dhvendev@gmail.com',)
+2025-04-20 15:00:08 WARNING [passlib.handlers.bcrypt]: (trapped) error reading bcrypt version
 Traceback (most recent call last):
   File "C:\Users\dhven\Desktop\lingofilms\.venv\Lib\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
     version = _bcrypt.__about__.__version__
               ^^^^^^^^^^^^^^^^^
 AttributeError: module 'bcrypt' has no attribute '__about__'
-2025-04-16 22:34:11 DEBUG [passlib.handlers.bcrypt]: detected 'bcrypt' backend, version '<unknown>'
-2025-04-16 22:34:11 DEBUG [passlib.handlers.bcrypt]: 'bcrypt' backend lacks $2$ support, enabling workaround
-2025-04-16 22:34:37 INFO [sqlalchemy.engine.Engine]: select pg_catalog.version()
-2025-04-16 22:34:37 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:34:37 INFO [sqlalchemy.engine.Engine]: select current_schema()
-2025-04-16 22:34:37 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:34:37 INFO [sqlalchemy.engine.Engine]: show standard_conforming_strings
-2025-04-16 22:34:37 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:34:37 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 22:34:37 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.email = $1::VARCHAR AND users.hashed_password = $2::VARCHAR
-2025-04-16 22:34:37 INFO [sqlalchemy.engine.Engine]: [generated in 0.00033s] ('dhvendev@gmail.com', 'test')
-2025-04-16 22:34:37 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 22:34:38 DEBUG [passlib.utils.compat]: loaded lazy attr 'SafeConfigParser': <class 'configparser.ConfigParser'>
-2025-04-16 22:34:38 DEBUG [passlib.utils.compat]: loaded lazy attr 'NativeStringIO': <class '_io.StringIO'>
-2025-04-16 22:34:38 DEBUG [passlib.utils.compat]: loaded lazy attr 'BytesIO': <class '_io.BytesIO'>
-2025-04-16 22:34:38 DEBUG [passlib.registry]: registered 'bcrypt' handler: <class 'passlib.handlers.bcrypt.bcrypt'>
-2025-04-16 22:34:41 INFO [sqlalchemy.engine.Engine]: select pg_catalog.version()
-2025-04-16 22:34:41 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:34:41 INFO [sqlalchemy.engine.Engine]: select current_schema()
-2025-04-16 22:34:41 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:34:41 INFO [sqlalchemy.engine.Engine]: show standard_conforming_strings
-2025-04-16 22:34:41 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:34:41 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 22:34:41 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.email = $1::VARCHAR AND users.hashed_password = $2::VARCHAR
-2025-04-16 22:34:41 INFO [sqlalchemy.engine.Engine]: [generated in 0.00067s] ('dhvendev@gmail.com', 'test')
-2025-04-16 22:34:41 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 22:39:35 INFO [sqlalchemy.engine.Engine]: select pg_catalog.version()
-2025-04-16 22:39:35 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:39:35 INFO [sqlalchemy.engine.Engine]: select current_schema()
-2025-04-16 22:39:35 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:39:35 INFO [sqlalchemy.engine.Engine]: show standard_conforming_strings
-2025-04-16 22:39:35 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:39:35 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 22:39:35 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at 
-FROM users 
-WHERE users.email = $1::VARCHAR
-2025-04-16 22:39:35 INFO [sqlalchemy.engine.Engine]: [generated in 0.00031s] ('dhvendev@gmail.com',)
-2025-04-16 22:39:35 WARNING [passlib.handlers.bcrypt]: (trapped) error reading bcrypt version
-Traceback (most recent call last):
-  File "C:\Users\dhven\Desktop\lingofilms\.venv\Lib\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
-    version = _bcrypt.__about__.__version__
-              ^^^^^^^^^^^^^^^^^
-AttributeError: module 'bcrypt' has no attribute '__about__'
-2025-04-16 22:39:35 DEBUG [passlib.handlers.bcrypt]: detected 'bcrypt' backend, version '<unknown>'
-2025-04-16 22:39:35 DEBUG [passlib.handlers.bcrypt]: 'bcrypt' backend lacks $2$ support, enabling workaround
-2025-04-16 22:39:35 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.email = $1::VARCHAR AND users.hashed_password = $2::VARCHAR
-2025-04-16 22:39:35 INFO [sqlalchemy.engine.Engine]: [generated in 0.00067s] ('dhvendev@gmail.com', 'test')
-2025-04-16 22:39:35 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 22:39:46 INFO [sqlalchemy.engine.Engine]: select pg_catalog.version()
-2025-04-16 22:39:46 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:39:46 INFO [sqlalchemy.engine.Engine]: select current_schema()
-2025-04-16 22:39:46 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:39:46 INFO [sqlalchemy.engine.Engine]: show standard_conforming_strings
-2025-04-16 22:39:46 INFO [sqlalchemy.engine.Engine]: [raw sql] ()
-2025-04-16 22:39:46 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 22:39:46 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at 
-FROM users 
-WHERE users.email = $1::VARCHAR
-2025-04-16 22:39:46 INFO [sqlalchemy.engine.Engine]: [generated in 0.00040s] ('dhvendev@gmail.com',)
-2025-04-16 22:39:46 WARNING [passlib.handlers.bcrypt]: (trapped) error reading bcrypt version
-Traceback (most recent call last):
-  File "C:\Users\dhven\Desktop\lingofilms\.venv\Lib\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
-    version = _bcrypt.__about__.__version__
-              ^^^^^^^^^^^^^^^^^
-AttributeError: module 'bcrypt' has no attribute '__about__'
-2025-04-16 22:39:46 DEBUG [passlib.handlers.bcrypt]: detected 'bcrypt' backend, version '<unknown>'
-2025-04-16 22:39:46 DEBUG [passlib.handlers.bcrypt]: 'bcrypt' backend lacks $2$ support, enabling workaround
-2025-04-16 22:39:46 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
+2025-04-20 15:00:08 DEBUG [passlib.handlers.bcrypt]: detected 'bcrypt' backend, version '<unknown>'
+2025-04-20 15:00:08 DEBUG [passlib.handlers.bcrypt]: 'bcrypt' backend lacks $2$ support, enabling workaround
+2025-04-20 15:00:09 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
 FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
 WHERE users.id = $1::INTEGER
-2025-04-16 22:39:46 INFO [sqlalchemy.engine.Engine]: [generated in 0.00038s] (2,)
-2025-04-16 22:39:46 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 22:39:49 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 22:39:49 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at 
-FROM users 
-WHERE users.email = $1::VARCHAR
-2025-04-16 22:39:49 INFO [sqlalchemy.engine.Engine]: [cached since 3.391s ago] ('dhvendev@gmail.com',)
-2025-04-16 22:39:49 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.id = $1::INTEGER
-2025-04-16 22:39:49 INFO [sqlalchemy.engine.Engine]: [cached since 3.37s ago] (2,)
-2025-04-16 22:39:49 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 22:39:53 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 22:39:53 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at 
-FROM users 
-WHERE users.email = $1::VARCHAR
-2025-04-16 22:39:53 INFO [sqlalchemy.engine.Engine]: [cached since 7.308s ago] ('dhvendev@gmail.com',)
-2025-04-16 22:39:53 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.id = $1::INTEGER
-2025-04-16 22:39:53 INFO [sqlalchemy.engine.Engine]: [cached since 7.289s ago] (2,)
-2025-04-16 22:39:53 INFO [sqlalchemy.engine.Engine]: ROLLBACK
-2025-04-16 22:39:54 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
-2025-04-16 22:39:54 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at 
-FROM users 
-WHERE users.email = $1::VARCHAR
-2025-04-16 22:39:54 INFO [sqlalchemy.engine.Engine]: [cached since 8.505s ago] ('dhvendev@gmail.com',)
-2025-04-16 22:39:54 INFO [sqlalchemy.engine.Engine]: SELECT users.id, users.email, users.hashed_password, users.username, users.gender, users.date_of_birth, users.created_at, user_subscriptions.user_id, user_subscriptions.subscription_id, user_subscriptions.start_date, user_subscriptions.end_date, user_subscriptions.is_active, subscriptions.id AS id_1, subscriptions.subscription_type, subscriptions.created_at AS created_at_1 
-FROM users LEFT OUTER JOIN user_subscriptions ON users.id = user_subscriptions.user_id LEFT OUTER JOIN subscriptions ON user_subscriptions.subscription_id = subscriptions.id 
-WHERE users.id = $1::INTEGER
-2025-04-16 22:39:54 INFO [sqlalchemy.engine.Engine]: [cached since 8.485s ago] (2,)
-2025-04-16 22:39:54 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:09 INFO [sqlalchemy.engine.Engine]: [generated in 0.00032s] (2,)
+2025-04-20 15:00:09 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:14 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:14 INFO [sqlalchemy.engine.Engine]: SELECT genres.id, genres.name 
+FROM genres
+2025-04-20 15:00:14 INFO [sqlalchemy.engine.Engine]: [generated in 0.00023s] ()
+2025-04-20 15:00:14 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:14 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:14 INFO [sqlalchemy.engine.Engine]: SELECT countries.id, countries.name 
+FROM countries
+2025-04-20 15:00:14 INFO [sqlalchemy.engine.Engine]: [generated in 0.00021s] ()
+2025-04-20 15:00:14 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: [cached since 21.43s ago] ()
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: [cached since 21.43s ago] ()
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: [cached since 21.43s ago] ()
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: [cached since 21.43s ago] ()
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: [cached since 21.44s ago] ()
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:16 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:17 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:17 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id 
+WHERE movies.slug = $1::VARCHAR
+2025-04-20 15:00:17 INFO [sqlalchemy.engine.Engine]: [generated in 0.00051s] ('avatar-rasshirennaia-versiia',)
+2025-04-20 15:00:17 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:17 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:17 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 15:00:17 INFO [sqlalchemy.engine.Engine]: [cached since 21.9s ago] ()
+2025-04-20 15:00:17 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: [cached since 23.55s ago] ()
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: [cached since 23.55s ago] ()
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: [cached since 23.56s ago] ()
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: [cached since 23.56s ago] ()
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: [cached since 23.57s ago] ()
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:18 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:19 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:19 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id 
+WHERE movies.slug = $1::VARCHAR
+2025-04-20 15:00:19 INFO [sqlalchemy.engine.Engine]: [cached since 2.77s ago] ('avatar-rasshirennaia-versiia',)
+2025-04-20 15:00:19 INFO [sqlalchemy.engine.Engine]: ROLLBACK
+2025-04-20 15:00:19 INFO [sqlalchemy.engine.Engine]: BEGIN (implicit)
+2025-04-20 15:00:20 INFO [sqlalchemy.engine.Engine]: SELECT movies.id, movies.title, movies.year, movies.description, movies.duration, movies.slug, movies.created_at, movies.cover_url, movies.thumbnail_url, movies.difficulty, genres_1.id AS id_1, genres_1.name, countries_1.id AS id_2, countries_1.name AS name_1, actors_1.id AS id_3, actors_1.name AS name_2, actors_1.birth_date, media_1.id AS id_4, media_1.movie_id, media_1.episode_id, media_1.quality, media_1.url, statistics_1.id AS id_5, statistics_1.movie_id AS movie_id_1, statistics_1.series_id, statistics_1.views, statistics_1.likes, subtitles_1.id AS id_6, subtitles_1.movie_id AS movie_id_2, subtitles_1.episode_id AS episode_id_1, subtitles_1.language, subtitles_1.url AS url_1 
+FROM movies LEFT OUTER JOIN (movie_genre AS movie_genre_1 JOIN genres AS genres_1 ON genres_1.id = movie_genre_1.genre_id) ON movies.id = movie_genre_1.movie_id LEFT OUTER JOIN (movie_country AS movie_country_1 JOIN countries AS countries_1 ON countries_1.id = movie_country_1.country_id) ON movies.id = movie_country_1.movie_id LEFT OUTER JOIN (movie_actor AS movie_actor_1 JOIN actors AS actors_1 ON actors_1.id = movie_actor_1.actor_id) ON movies.id = movie_actor_1.movie_id LEFT OUTER JOIN media AS media_1 ON movies.id = media_1.movie_id LEFT OUTER JOIN statistics AS statistics_1 ON movies.id = statistics_1.movie_id LEFT OUTER JOIN subtitles AS subtitles_1 ON movies.id = subtitles_1.movie_id
+2025-04-20 15:00:20 INFO [sqlalchemy.engine.Engine]: [cached since 24.68s ago] ()
+2025-04-20 15:00:20 INFO [sqlalchemy.engine.Engine]: ROLLBACK

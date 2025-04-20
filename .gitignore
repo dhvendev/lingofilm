@@ -24,9 +24,12 @@
 .DS_Store
 *.pem
 .venv
+.next
 __pycache__
 TODO
 versions
+.ssl
+.vscode
 
 # debug
 npm-debug.log*
@@ -36,6 +39,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+py_log*
 
 # vercel
 .vercel
@@ -43,5 +47,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-.vscode
+node_modules

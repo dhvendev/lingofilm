@@ -1,20 +1,15 @@
 from fastapi import APIRouter, Response, Request, HTTPException, Depends, Cookie
-from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 import uuid
 from app.core.db import get_db
-from app.crud.users import get_user, get_user_with_pass, check_subscription
+from app.crud.users import get_user, get_user_with_pass, check_subscription, get_user_by_email, create_user
 from app.core.logger import logger
 from app.core.session import SessionManager as redis_manager
-from app.core.security import get_password_hash
+from datetime import datetime
+from typing import Optional
+from app.schemas.user import CreateUserModel, LoginUser
 
 router = APIRouter()
-
-
-class LoginUser(BaseModel):
-    email: str
-    password: str
-
 
 @router.post('/authenticate')
 async def authenticate(user: LoginUser, response: Response, request: Request, session: AsyncSession = Depends(get_db)):
@@ -43,6 +38,24 @@ async def authenticate(user: LoginUser, response: Response, request: Request, se
     #TODO: edit same site
     response.set_cookie(key="session_id", value=session_id, httponly=True, max_age=3600, secure=True, samesite="None")
     return user
+
+@router.post('/register')
+async def register(user: CreateUserModel, response: Response, request: Request, session: AsyncSession = Depends(get_db)):
+    """
+    Register a new user
+    """
+    db_user = await get_user_by_email(user.email, session)
+    if db_user:
+        raise HTTPException(status_code=409, detail="User already exists")
+    user = await create_user(user, session)
+    session_id = str(uuid.uuid4())
+    is_created = await redis_manager.create_session(user.id, session_id, request.headers.get("User-Agent", "Unknown"))
+    if not is_created:
+        raise HTTPException(status_code=500)
+    #TODO: edit same site
+    response.set_cookie(key="session_id", value=session_id, httponly=True, max_age=3600, secure=True, samesite="None")
+    return user
+
 
 
 @router.post('/logout')
