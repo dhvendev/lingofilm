@@ -2,12 +2,12 @@
   "/_not-found/page": "app/_not-found/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/copyright/page": "app/copyright/page.js",
-  "/films/[slug]/page": "app/films/[slug]/page.js",
-  "/films/page": "app/films/page.js",
-  "/page": "app/page.js",
   "/pages/1/page": "app/pages/1/page.js",
+  "/films/page": "app/films/page.js",
+  "/films/[slug]/page": "app/films/[slug]/page.js",
   "/pages/2/page": "app/pages/2/page.js",
+  "/page": "app/page.js",
   "/pages/3/page": "app/pages/3/page.js",
-  "/request/page": "app/request/page.js",
-  "/profile/page": "app/profile/page.js"
+  "/profile/page": "app/profile/page.js",
+  "/request/page": "app/request/page.js"
 }
