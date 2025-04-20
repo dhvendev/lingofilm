@@ -1,0 +1,13 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/favicon.ico/route": "/favicon.ico",
+  "/copyright/page": "/copyright",
+  "/films/[slug]/page": "/films/[slug]",
+  "/films/page": "/films",
+  "/page": "/",
+  "/pages/1/page": "/pages/1",
+  "/pages/2/page": "/pages/2",
+  "/pages/3/page": "/pages/3",
+  "/request/page": "/request",
+  "/profile/page": "/profile"
+}

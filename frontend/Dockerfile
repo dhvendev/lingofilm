@@ -2,15 +2,15 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Установка зависимостей
+# Копируем только необходимые файлы
 COPY frontend/package.json frontend/package-lock.json ./
-RUN npm ci
+COPY frontend/.next ./.next
+COPY frontend/public ./public
 
-# Копирование кода приложения
-COPY frontend/ ./
+# Устанавливаем только production зависимости
+RUN npm ci --only=production
 
-# Экспозиция порта
 EXPOSE 3000
 
-# Команда запуска для разработки
-CMD ["npm", "run", "dev"]
+# Запускаем собранное приложение
+CMD ["npm", "start"]
