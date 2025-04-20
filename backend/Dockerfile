@@ -2,21 +2,7 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Установка необходимых пакетов
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    postgresql-client \
-    gcc \
-    python3-dev
-
-# Создание и активация виртуального окружения
-RUN python -m venv /app/.venv
-ENV PATH="/app/.venv/bin:$PATH"
-
-# Обновление pip
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel
-
-# Установка зависимостей в виртуальное окружение
+# Установка зависимостей
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -27,4 +13,4 @@ COPY ./backend /app
 EXPOSE 8000
 
 # Команда запуска
-CMD ["/bin/bash", "-c", "source /app/.venv/bin/activate && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
