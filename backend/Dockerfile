@@ -3,10 +3,11 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Установка необходимых пакетов
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y \
+    postgresql-dev \
+    postgresql-client \
     gcc \
-    python3-dev \
-    && rm -rf /var/lib/apt/lists/*
+    python3-dev
 
 # Создание и активация виртуального окружения
 RUN python -m venv /app/.venv
