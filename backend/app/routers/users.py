@@ -36,7 +36,7 @@ async def authenticate(user: LoginUser, response: Response, request: Request, se
     if not is_created:
         raise HTTPException(status_code=500)
     #TODO: edit same site
-    response.set_cookie(key="session_id", value=session_id, httponly=True, max_age=3600, secure=True, samesite="None")
+    response.set_cookie(key="session_id", value=session_id, httponly=True, max_age=3600, secure=True, samesite="lax")
     return user
 
 @router.post('/register')
@@ -53,7 +53,7 @@ async def register(user: CreateUserModel, response: Response, request: Request, 
     if not is_created:
         raise HTTPException(status_code=500)
     #TODO: edit same site
-    response.set_cookie(key="session_id", value=session_id, httponly=True, max_age=3600, secure=True, samesite="None")
+    response.set_cookie(key="session_id", value=session_id, httponly=True, max_age=3600, secure=True, samesite="lax")
     return user
 
 
