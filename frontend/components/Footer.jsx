@@ -4,7 +4,7 @@ import { TvMinimalPlay } from "lucide-react";
 export default function Footer() {
     const currentYear = new Date().getFullYear();
     return (
-        <footer className="w-[100vw] md:w-[80vw] lg:w-[80vw] xl:w-[80vw] flex flex-row justify-between pb-5 pt-10 mt-20 border-t-2 border-t-gray-900 mx-auto">
+        <footer className="w-[95vw] md:w-[80vw] lg:w-[80vw] xl:w-[80vw] flex flex-row justify-between pb-5 pt-10 mt-20 border-t-2 border-t-gray-900 mx-auto">
             <div className="flex flex-col justify-between">
                 <div>
                     <h1 className="flex flex-row font-bold text-4xl"><TvMinimalPlay size={50} className="mr-2"/>Lingo<span className="text-green-500">Film</span></h1>
