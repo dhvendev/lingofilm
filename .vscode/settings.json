@@ -1,7 +1,0 @@
-{
-    "postman.settings.dotenv-detection-notification-visibility": false,
-    "[javascriptreact]":
-        {
-            "editor.tabSize": 4
-        }
-}

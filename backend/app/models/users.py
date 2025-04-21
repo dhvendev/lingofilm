@@ -19,7 +19,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String(255), unique=True, index=True, nullable=False)
     hashed_password = Column(String(255), nullable=False)
-    username = Column(String(100), unique=True, nullable=False)
+    username = Column(String(100), unique=False, nullable=False)
     gender = Column(String, nullable=True)
     date_of_birth = Column(Date, nullable=True)
     created_at = Column(Date, nullable=False, default=func.now())

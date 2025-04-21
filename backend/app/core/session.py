@@ -125,7 +125,6 @@ class SessionManager:
             if not user_id:
                 return False
             
-            # Обновляем время жизни
             await redis_client.expire(f"session:{session_id}", expire_time)
             await redis_client.expire(f"user_sessions:{user_id}", expire_time)
             return True

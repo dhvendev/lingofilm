@@ -6,7 +6,7 @@ redis_client = redis.Redis(
     port=settings.REDIS_PORT,
     db=0,
     decode_responses=True,
-    password=settings.REDIS_PASSWORD
+    password=settings.REDIS_PASSWORD if not settings.DEBUG else None
 )
 
 redis_rate_limiter = redis.Redis(
@@ -14,5 +14,5 @@ redis_rate_limiter = redis.Redis(
     port=settings.REDIS_PORT,
     db=1,
     decode_responses=True,
-    password=settings.REDIS_PASSWORD
+    password=settings.REDIS_PASSWORD if not settings.DEBUG else None
 )

@@ -8,6 +8,7 @@ from app.core.session import SessionManager as redis_manager
 from datetime import datetime
 from typing import Optional
 from app.schemas.user import CreateUserModel, LoginUser
+from app.core.config import settings
 
 router = APIRouter()
 
@@ -35,14 +36,25 @@ async def authenticate(user: LoginUser, response: Response, request: Request, se
     is_created = await redis_manager.create_session(user.get('id'), session_id, request.headers.get("User-Agent", "Unknown"))
     if not is_created:
         raise HTTPException(status_code=500)
-    #TODO: edit same site
-    response.set_cookie(key="session_id", value=session_id, httponly=True, max_age=3600, secure=True, samesite="lax")
+    response.set_cookie(key="session_id", value=session_id, httponly=True, max_age=3600, secure=True, samesite="none" if not settings.DEBUG else "lax")
     return user
 
 @router.post('/register')
 async def register(user: CreateUserModel, response: Response, request: Request, session: AsyncSession = Depends(get_db)):
     """
     Register a new user
+
+    Args:
+        user (CreateUserModel): The user data
+        response (Response): The response object
+        request (Request): The request object
+        session (AsyncSession, optional): The database session. Defaults to Depends(get_db).
+
+    Returns:
+        dict: The user data
+
+    Raises:
+        HTTPException: If the user already exists
     """
     db_user = await get_user_by_email(user.email, session)
     if db_user:
@@ -52,8 +64,8 @@ async def register(user: CreateUserModel, response: Response, request: Request, 
     is_created = await redis_manager.create_session(user.id, session_id, request.headers.get("User-Agent", "Unknown"))
     if not is_created:
         raise HTTPException(status_code=500)
-    #TODO: edit same site
-    response.set_cookie(key="session_id", value=session_id, httponly=True, max_age=3600, secure=True, samesite="lax")
+    response.set_cookie(key="session_id", value=session_id, httponly=True, max_age=3600, secure=True, samesite="none" if not settings.DEBUG else "lax")
+    del user.hashed_password
     return user
 
 

@@ -1,5 +1,6 @@
 import logging
 from logging.handlers import TimedRotatingFileHandler
+from app.core.config import settings
 
 # Logging configuration for project
 
@@ -16,5 +17,5 @@ handler.setFormatter(formatter)
 
 
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.DEBUG if settings.DEBUG else logging.INFO)
 logger.addHandler(handler)

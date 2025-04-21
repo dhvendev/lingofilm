@@ -14,7 +14,6 @@
 /coverage
 
 # next.js
-/.next/
 /out/
 
 # production
@@ -24,7 +23,6 @@
 .DS_Store
 *.pem
 .venv
-.next
 __pycache__
 TODO
 versions
@@ -39,8 +37,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
-py_log.log*
-py_log*
+*.log
+py_log.log
+.next
 
 # vercel
 .vercel

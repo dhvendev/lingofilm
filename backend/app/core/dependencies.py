@@ -1,4 +1,3 @@
-# dependencies.py
 from fastapi import Cookie, HTTPException, status
 from session import SessionManager
 

@@ -5,6 +5,7 @@ from typing import Optional
 from app.core.security import verify_password
 from app.core.logger import logger
 from app.schemas.user import CreateUserModel
+from app.core.security import get_password_hash
 
 def generate_user_data(user: User, user_subscription: UserSubscription=None, subscription: Subscription=None):
     data = {
@@ -78,8 +79,7 @@ async def check_subscription(user_id: int, session: AsyncSession) -> Optional[di
 
 
 async def create_user(user: CreateUserModel, session: AsyncSession) -> User:
-    print(user)
-    db_user = User(email=user.email, hashed_password=user.password, username=user.username, gender=user.gender, date_of_birth=user.date_of_birth)
+    db_user = User(email=user.email, hashed_password=get_password_hash(user.password), username=user.username, gender=user.gender, date_of_birth=user.date_of_birth)
     session.add(db_user)
     await session.commit()
     await session.refresh(db_user)
