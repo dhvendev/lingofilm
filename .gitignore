@@ -39,6 +39,7 @@ yarn-error.log*
 .env*
 *.log
 py_log.log
+py_log.log*
 .next
 
 # vercel

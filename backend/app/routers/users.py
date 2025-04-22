@@ -8,7 +8,9 @@ from app.core.session import SessionManager as redis_manager
 from datetime import datetime
 from typing import Optional
 from app.schemas.user import CreateUserModel, LoginUser
+from app.schemas.other import TranslateWord
 from app.core.config import settings
+from app.services.translate_api import translate_word
 
 router = APIRouter()
 
@@ -162,3 +164,31 @@ def edit_password():
 @router.post('/editPicture')
 def edit_picture():
     pass
+
+
+@router.post('/translateWord')
+async def translate(response: Response, payload: TranslateWord, session: AsyncSession = Depends(get_db), session_id: str = Cookie(default=None)):
+    """
+    Translate a word only if the user is authenticated
+
+    Args:
+        response (Response): The response object
+        session_id (str, optional): The session ID. Defaults to None.
+        payload (TranslateWord): The word to translate {"word": :example}
+
+    Returns:
+        dict: The translated word
+
+    Raises:
+        HTTPException: If the user is not authenticated
+    """
+    if not session_id:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    user_id = await redis_manager.get_user_id_from_session(session_id)
+    if not user_id:
+        response.delete_cookie(key="session_id")
+        raise HTTPException(status_code=401, detail="Unauthorized", headers=response.headers)
+    
+    translated_word = await translate_word(payload.word)
+    return translated_word
