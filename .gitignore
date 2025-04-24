@@ -49,3 +49,5 @@ py_log.log*
 *.tsbuildinfo
 next-env.d.ts
 node_modules
+
+dump.rdb

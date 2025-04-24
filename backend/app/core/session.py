@@ -10,7 +10,7 @@ class SessionManager:
     """
     
     @staticmethod
-    async def get_user_id_from_session(session_id: str) -> Optional[str]:
+    async def get_user_id_from_session(session_id: str) -> Optional[int]:
         """
         Retrieve the user ID from a session ID in Redis or return None if not found.
 
@@ -18,12 +18,12 @@ class SessionManager:
             session_id (str): The session ID to retrieve the user ID from.
 
         Returns:
-            Optional[str]: The user ID associated with the session ID, or None if not found.
+            Optional[int]: The user ID associated with the session ID, or None if not found.
         """
         try:
             if not session_id:
                 return None
-            return await redis_client.hget(f"session:{session_id}", "user_id")
+            return int(await redis_client.hget(f"session:{session_id}", "user_id"))
         except RedisError as e:
             logger.error(f"Redis error: {e}")
             return None

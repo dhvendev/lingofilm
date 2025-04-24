@@ -2,12 +2,12 @@ from fastapi import APIRouter, Response, Request, HTTPException, Depends, Cookie
 from sqlalchemy.ext.asyncio import AsyncSession
 import uuid
 from app.core.db import get_db
-from app.crud.users import get_user, get_user_with_pass, check_subscription, get_user_by_email, create_user
+from app.crud.users import generate_user_data, get_user, get_user_with_pass, check_subscription, get_user_by_email, create_user, update_image
 from app.core.logger import logger
 from app.core.session import SessionManager as redis_manager
 from datetime import datetime
 from typing import Optional
-from app.schemas.user import CreateUserModel, LoginUser
+from app.schemas.user import CreateUserModel, LoginUser, NewPicture
 from app.schemas.other import TranslateWord
 from app.core.config import settings
 from app.services.translate_api import translate_word
@@ -58,6 +58,9 @@ async def register(user: CreateUserModel, response: Response, request: Request, 
     Raises:
         HTTPException: If the user already exists
     """
+
+    #TODO: Сначала проверить captchaToken на валидность
+
     db_user = await get_user_by_email(user.email, session)
     if db_user:
         raise HTTPException(status_code=409, detail="User already exists")
@@ -162,8 +165,17 @@ def edit_password():
 
 
 @router.post('/editPicture')
-def edit_picture():
-    pass
+async def edit_picture(payload: NewPicture,response: Response, session: AsyncSession = Depends(get_db), session_id: str = Cookie(default=None)):
+    if not session_id:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    user_id = await redis_manager.get_user_id_from_session(session_id)
+    if not user_id:
+        response.delete_cookie(key="session_id")
+        raise HTTPException(status_code=401, detail="Unauthorized", headers=response.headers)
+    
+    await update_image(user_id, payload.image, session)
+    return {"detail": "Picture updated"}
 
 
 @router.post('/translateWord')

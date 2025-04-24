@@ -12,3 +12,7 @@ class CreateUserModel(BaseModel):
     username: str = Field(..., min_length=3, max_length=30)
     gender: Optional[str] = None
     date_of_birth: Optional[datetime] = None
+    captchaToken: Optional[str] = None
+
+class NewPicture(BaseModel):
+    image: str

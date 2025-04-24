@@ -15,6 +15,7 @@ def generate_user_data(user: User, user_subscription: UserSubscription=None, sub
         'gender': user.gender,
         'date_of_birth': user.date_of_birth,
         'created_at': user.created_at,
+        'image': user.image,
         'subscription': {
                 'sub_type' : subscription.subscription_type,
                 'expire' : user_subscription.end_date,
@@ -84,3 +85,22 @@ async def create_user(user: CreateUserModel, session: AsyncSession) -> User:
     await session.commit()
     await session.refresh(db_user)
     return db_user
+
+async def update_image(user_id: int, image: str, session: AsyncSession) -> User:
+    """
+    Update the image of a user in the database.
+
+    Args:
+        user_id (int): The ID of the user to update.
+        image (str): The new image URL.
+
+    Returns:
+        User: The updated user object.
+    """
+    stmt = select(User).where(User.id == int(user_id))
+    res = await session.execute(stmt)
+    user = res.scalars().first()
+    user.image = image
+    await session.commit()
+    await session.refresh(user)
+    return user

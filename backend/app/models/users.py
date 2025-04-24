@@ -23,6 +23,7 @@ class User(Base):
     gender = Column(String, nullable=True)
     date_of_birth = Column(Date, nullable=True)
     created_at = Column(Date, nullable=False, default=func.now())
+    image = Column(String(500), nullable=True)
 
     subscriptions = relationship("Subscription", secondary="user_subscriptions", back_populates="users")
 
