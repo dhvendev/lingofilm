@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/themeProvider"
 import Footer from "@/components/Footer";
 import { Suspense } from "react";
 import { FooterSkeleton } from "@/components/SkeletonLoader";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,6 +43,7 @@ export default async function RootLayout({ children }) {
             <Suspense fallback={<FooterSkeleton />}>
               <Footer />
             </Suspense>
+            <Toaster position="top-center" expand={true} richColors  />
           </ThemeProvider>
         </UserProvider>
       </body>

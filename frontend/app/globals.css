@@ -125,4 +125,12 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* Добавьте эти стили в ваш глобальный CSS файл */
+  .SmartCaptcha-Overlay_visible {
+    pointer-events: auto;
+  }
+
+  .Modal_theme_normal .Modal-Overlay {
+    background-color: rgb(165, 5, 5) !important;
+  }
 }

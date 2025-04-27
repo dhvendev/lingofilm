@@ -1,5 +1,6 @@
 import api from "./axiosConfig";
 
+// TODO: add throw error if response is null
 async function getUser(session_id) {
     console.log('api method', session_id);
     try {
@@ -12,11 +13,10 @@ async function getUser(session_id) {
     }
 }
 
-
-async function loginUser(email, password) {
-    console.log(email, password);
+// TODO: add throw error if response is null
+async function loginUser(userData) {
     try {
-        const response = await api.post(`/api/users/authenticate`, { email, password }, { withCredentials: true });
+        const response = await api.post(`/api/users/authenticate`, userData, { withCredentials: true });
         console.log(response);
         return response.data;
     } catch (error) {
@@ -24,7 +24,20 @@ async function loginUser(email, password) {
         return null;
     }
 }
-
+async function registerUser(userData) {
+    try {
+        const response = await api.post(`/api/users/register`, userData, { withCredentials: true });
+        return response.data;
+    } catch (error) {
+        if (error.response?.status === 400) {
+            throw new Error("Пользователь с таким логином уже существует");
+        } else if (error.response?.status === 409) {
+            throw new Error("Пользователь с таким email уже существует");
+        } 
+        throw new Error("Ошибка сервера. Попробуйте позже.");
+    }
+}
+// TODO: add throw error if response is null
 async function logoutUser() {
     try {
         const response = await api.post(`/api/users/logout`, {}, { withCredentials: true });
@@ -47,6 +60,7 @@ async function getMovieByQuery(query) {
         return [];
     }
 }
+// TODO: add throw error if response is null
 async function getMovies() {
     try {
         const response = await api.post(`/api/movies/getMovies`, {}, { withCredentials: true });
@@ -59,7 +73,7 @@ async function getMovies() {
         return [];
     }
 }
-
+// TODO: add throw error if response is null
 async function getMoviesByFilter(payload) {
     console.log(payload);
     try {
@@ -73,7 +87,7 @@ async function getMoviesByFilter(payload) {
         return [];
     }
 }
-
+// TODO: add throw error if response is null
 async function  getMovie(slug) {
     try {
         const response = await api.post(`/api/movies/getMovie`, { slug }, { withCredentials: true });
@@ -87,7 +101,7 @@ async function  getMovie(slug) {
     }
     
 }
-
+// TODO: add throw error if response is null
 async function getGenres() {
     try {
         const response = await api.post(`/api/filters/getGenres`, { withCredentials: true });
@@ -101,6 +115,7 @@ async function getGenres() {
     }
 }
 
+// TODO: add throw error if response is null
 async function getCountries() {
     try {
         const response = await api.post(`/api/filters/getCountries`, { withCredentials: true });
@@ -114,4 +129,19 @@ async function getCountries() {
     }
 }
 
-export { getUser, loginUser, logoutUser, getMovieByQuery, getMovies, getMoviesByFilter, getMovie, getGenres, getCountries };
+export async function editPicture(image) {
+    try {
+        const response = await api.post(`/api/users/editPicture`, {image} ,{ withCredentials: true });
+        if (!response.data) {
+            return null;
+        }
+        return response.data;
+    } catch(error) {
+        if (error.response?.status === 401) {
+            throw new Error("Вы не авторизованы");
+        }
+        throw new Error("Ошибка сервера. Попробуйте позже.");
+    }
+}
+
+export { getUser, loginUser, logoutUser, getMovieByQuery, getMovies, getMoviesByFilter, getMovie, getGenres, getCountries, registerUser };
