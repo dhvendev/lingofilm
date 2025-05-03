@@ -5,6 +5,8 @@ import { getMovies } from "@/services/axiosMethods";
 import Link from "next/link";
 import { Suspense } from "react";
 import { MainSliderSkeleton, ContentSliderSkeleton, TopSliderSkeleton } from "@/components/SkeletonLoader";
+import SliderMovies from "@/components/SliderMovies";
+import SliderSeries from "@/components/SliderSeries";
 
 export default async function Home() {
   return (
@@ -33,7 +35,7 @@ export default async function Home() {
           </Link>
         </div>
         <Suspense fallback={<ContentSliderSkeleton />}>
-          <Slider />
+          <SliderMovies />
         </Suspense>
       </section>
 
@@ -44,7 +46,7 @@ export default async function Home() {
           </Link>
         </div>
         <Suspense fallback={<ContentSliderSkeleton />}>
-          <Slider />
+          <SliderSeries />
         </Suspense>
       </section>
     </main>

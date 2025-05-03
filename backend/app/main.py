@@ -8,6 +8,8 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from app.tasks.sync_tasks import sync_likes_to_database
 from app.routers.vocabulary import router as vocabulary_router
+from app.routers.content import router as content_router
+from app.tasks.update_metrics import update_weekly_metrics  # Новый роутер
 
 app = FastAPI()
 
@@ -25,6 +27,7 @@ app.include_router(movies_router, prefix='/api/movies')
 app.include_router(filters_router, prefix='/api/filters')
 app.include_router(interactions_router, prefix='/api/interactions')
 app.include_router(vocabulary_router, prefix='/api/vocabulary')
+app.include_router(content_router, prefix='/api/content')  # Новый роутер
 
 
 
@@ -43,6 +46,14 @@ async def startup_event():
         replace_existing=True,
     )
     
+    scheduler.add_job(
+        update_weekly_metrics,
+        # CronTrigger(hour=3, minute=0),
+        CronTrigger(minute="*/1"),  # Каждые 5 минут
+        id="update_weekly_metrics",
+        max_instances=1,
+        replace_existing=True,
+    )
     # Запускаем scheduler
     scheduler.start()
 

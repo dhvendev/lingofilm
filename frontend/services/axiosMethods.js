@@ -60,19 +60,7 @@ async function getMovieByQuery(query) {
         return [];
     }
 }
-// TODO: add throw error if response is null
-async function getMovies() {
-    try {
-        const response = await api.post(`/api/movies/getMovies`, {}, { withCredentials: true });
-        if (!response.data) {
-            return [];
-        }
-        return response.data;
-    } catch (error) {
-        console.log(error);
-        return [];
-    }
-}
+
 // TODO: add throw error if response is null
 async function getMoviesByFilter(payload) {
     console.log(payload);
@@ -144,4 +132,84 @@ export async function editPicture(image) {
     }
 }
 
-export { getUser, loginUser, logoutUser, getMovieByQuery, getMovies, getMoviesByFilter, getMovie, getGenres, getCountries, registerUser };
+async function getFeaturedContent(limit = 5) {
+    try {
+        const response = await api.post(`/api/content/getFeaturedContent`, { limit }, { withCredentials: true });
+        if (!response.data) {
+            return [];
+        }
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
+
+// Для TopSlider (топ за неделю)
+async function getTopContent(period = "week", content_type = "all", limit = 10) {
+    try {
+        const response = await api.post(`/api/content/getTopContent`, { 
+            period, 
+            content_type, 
+            limit 
+        }, { withCredentials: true });
+        if (!response.data) {
+            return [];
+        }
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
+
+// Для новинок
+async function getRecentContent(content_type = "all", limit = 10) {
+    try {
+        const response = await api.post(`/api/content/getRecentContent`, { 
+            content_type, 
+            limit 
+        }, { withCredentials: true });
+        if (!response.data) {
+            return [];
+        }
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
+
+// Для фильмов
+async function getMovies(limit = 10) {
+    try {
+        const response = await api.post(`/api/content/getMovies`, { limit }, { withCredentials: true });
+        if (!response.data) {
+            return [];
+        }
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
+
+// Для сериалов
+async function getSeries(limit = 10) {
+    try {
+        const response = await api.post(`/api/content/getSeries`, { limit }, { withCredentials: true });
+        if (!response.data) {
+            return [];
+        }
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
+
+export { getUser, loginUser, logoutUser, getMovieByQuery,  getMoviesByFilter, getMovie, getGenres, getCountries, registerUser, getFeaturedContent,
+    getTopContent,
+    getRecentContent,
+    getMovies,
+    getSeries };

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Date, Table, UniqueConstraint
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Index, Integer, String, Date, Table, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.core.db import Base
@@ -106,6 +106,7 @@ class Movie(Base):
     difficulty = Column(String(50), nullable=False)
     views_count = Column(Integer, default=0, nullable=False)
     likes_count = Column(Integer, default=0, nullable=False)
+    is_featured = Column(Boolean, default=False, nullable=False)
     
     genres = relationship("Genre", secondary=movie_genre_association, backref="movies")
     countries = relationship("Country", secondary=movie_country_association, backref="movies")
@@ -130,6 +131,7 @@ class Series(Base):
     slug = Column(String(255), unique=True, nullable=False)
     views_count = Column(Integer, default=0, nullable=False)
     likes_count = Column(Integer, default=0, nullable=False)
+    is_featured = Column(Boolean, default=False, nullable=False)
     
     genres = relationship("Genre", secondary=series_genre_association, backref="series")
     countries = relationship("Country", secondary=series_country_association, backref="series")
@@ -169,3 +171,23 @@ class Episode(Base):
     def __repr__(self):
         return f"Episode(id={self.id}, season_id={self.season_id}, title={self.title}, episode_number={self.episode_number}, duration={self.duration})"
 
+
+class ContentPopularityMetrics(Base):
+    __tablename__ = "content_popularity_metrics"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    content_id = Column(Integer, nullable=False)
+    content_type = Column(String(10), nullable=False)  # "movie" или "series"
+    
+    # Период, за который собрана статистика
+    period_start = Column(DateTime(timezone=True), nullable=False)
+    period_end = Column(DateTime(timezone=True), nullable=False)
+    
+    # Метрики
+    views_count = Column(Integer, default=0, nullable=False)
+    likes_count = Column(Integer, default=0, nullable=False)
+    
+    # Индексы для быстрого поиска
+    __table_args__ = (
+        Index('ix_content_metrics_type_period', content_type, period_start, period_end),
+    )
