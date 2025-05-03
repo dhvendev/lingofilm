@@ -1,4 +1,5 @@
 from sqlalchemy import select
+import sqlalchemy
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.users import User, Subscription,  UserSubscription
 from typing import Optional
@@ -80,11 +81,15 @@ async def check_subscription(user_id: int, session: AsyncSession) -> Optional[di
 
 
 async def create_user(user: CreateUserModel, session: AsyncSession) -> User:
-    db_user = User(email=user.email, hashed_password=get_password_hash(user.password), username=user.username, gender=user.gender, date_of_birth=user.date_of_birth)
-    session.add(db_user)
-    await session.commit()
-    await session.refresh(db_user)
-    return db_user
+    try:
+        db_user = User(email=user.email, hashed_password=get_password_hash(user.password), username=user.username, gender=user.gender, date_of_birth=user.date_of_birth)
+        session.add(db_user)
+        await session.commit()
+        await session.refresh(db_user)
+        return db_user
+    except sqlalchemy.exc.IntegrityError as e:
+        logger.error(f"Error creating user: {e}")
+        return None
 
 async def update_image(user_id: int, image: str, session: AsyncSession) -> User:
     """

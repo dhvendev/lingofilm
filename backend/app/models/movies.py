@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Date, Table
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Date, Table, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.core.db import Base
@@ -104,12 +104,13 @@ class Movie(Base):
     cover_url = Column(String(500), nullable=True)
     thumbnail_url = Column(String(500), nullable=True)
     difficulty = Column(String(50), nullable=False)
+    views_count = Column(Integer, default=0, nullable=False)
+    likes_count = Column(Integer, default=0, nullable=False)
     
     genres = relationship("Genre", secondary=movie_genre_association, backref="movies")
     countries = relationship("Country", secondary=movie_country_association, backref="movies")
     actors = relationship("Actor", secondary=movie_actor_association, backref="movies")
     media = relationship("Media", backref="movie")
-    statistics = relationship("Statistics", back_populates="movie", uselist=False)
     subtitles = relationship("Subtitle", backref="movie")
 
     def __repr__(self):
@@ -127,12 +128,13 @@ class Series(Base):
     thumbnail_url = Column(String(500), nullable=True)
     difficulty = Column(String(50), nullable=False)
     slug = Column(String(255), unique=True, nullable=False)
+    views_count = Column(Integer, default=0, nullable=False)
+    likes_count = Column(Integer, default=0, nullable=False)
     
     genres = relationship("Genre", secondary=series_genre_association, backref="series")
     countries = relationship("Country", secondary=series_country_association, backref="series")
     actors = relationship("Actor", secondary=series_actor_association, backref="series")
     seasons = relationship("Season", back_populates="series")
-    statistics = relationship("Statistics", back_populates="series", uselist=False)
     
     def __repr__(self):
         return f"Series(id={self.id}, title={self.title}, year={self.year})"
@@ -167,31 +169,3 @@ class Episode(Base):
     def __repr__(self):
         return f"Episode(id={self.id}, season_id={self.season_id}, title={self.title}, episode_number={self.episode_number}, duration={self.duration})"
 
-
-class Statistics(Base):
-    __tablename__ = "statistics"
-
-    id = Column(Integer, primary_key=True, index=True)
-    movie_id = Column(Integer, ForeignKey("movies.id"), nullable=True)
-    series_id = Column(Integer, ForeignKey("series.id"), nullable=True)
-    views = Column(Integer, default=0)
-    likes = Column(Integer, default=0)
-
-    movie = relationship("Movie", back_populates="statistics", foreign_keys=[movie_id])
-    series = relationship("Series", back_populates="statistics", foreign_keys=[series_id])
-    
-    def __repr__(self):
-        return f"Statistics(id={self.id}, views={self.views}, likes={self.likes})"
-
-
-class Like(Base):
-    __tablename__ = "likes"
-
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    movie_id = Column(Integer, ForeignKey("movies.id"), nullable=True)
-    series_id = Column(Integer, ForeignKey("series.id"), nullable=True)
-    created_at = Column(Date, nullable=False, default=func.now())
-    
-    def __repr__(self):
-        return f"Like(id={self.id}, user_id={self.user_id}, created_at={self.created_at})"

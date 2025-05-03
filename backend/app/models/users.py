@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String,  Date, Boolean
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String,  Date, Boolean, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.core.db import Base
@@ -19,13 +19,14 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String(255), unique=True, index=True, nullable=False)
     hashed_password = Column(String(255), nullable=False)
-    username = Column(String(100), unique=False, nullable=False)
+    username = Column(String(100), unique=True, nullable=False)
     gender = Column(String, nullable=True)
     date_of_birth = Column(Date, nullable=True)
     created_at = Column(Date, nullable=False, default=func.now())
     image = Column(String(500), nullable=True)
 
     subscriptions = relationship("Subscription", secondary="user_subscriptions", back_populates="users")
+    likes = relationship("UserLike", back_populates="user")
 
     def __repr__(self):
         return f"User(id={self.id}, email={self.email}, username={self.username}, gender={self.gender}, date_of_birth={self.date_of_birth}, created_at={self.created_at})"
@@ -54,3 +55,19 @@ class UserSubscription(Base):
     def __repr__(self):
         return f"UserSubscription(user_id={self.user_id}, subscription_id={self.subscription_id}, start_date={self.start_date}, end_date={self.end_date}, is_active={self.is_active})"
 
+
+class UserLike(Base):
+    """Таблица для хранения информации о лайках пользователей"""
+    __tablename__ = "user_likes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    content_id = Column(Integer, nullable=False)  # ID фильма или сериала
+    content_type = Column(String(10), nullable=False)  # "movie" или "series"
+    created_at = Column(DateTime, nullable=False, default=func.now())
+    
+    __table_args__ = (
+        UniqueConstraint('user_id', 'content_id', 'content_type', name='unique_user_content_like'),
+    )
+
+    user = relationship("User", back_populates="likes")

@@ -33,14 +33,14 @@ services:
       - ./backend:/app
     networks:
       - frontend-network
-      - postgres-docker_postgres_network
+      - postgres_postgres-network
       - redis-docker_default
 
 networks:
   frontend-network:
     driver: bridge
   # Используем существующие сети (external networks)
-  postgres-docker_postgres_network:
+  postgres_postgres-network:
     external: true
   redis-docker_default:
     external: true

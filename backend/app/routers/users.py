@@ -65,6 +65,8 @@ async def register(user: CreateUserModel, response: Response, request: Request, 
     if db_user:
         raise HTTPException(status_code=409, detail="User already exists")
     user = await create_user(user, session)
+    if not user:
+        raise HTTPException(status_code=400, detail="Username already exists")
     session_id = str(uuid.uuid4())
     is_created = await redis_manager.create_session(user.id, session_id, request.headers.get("User-Agent", "Unknown"))
     if not is_created:

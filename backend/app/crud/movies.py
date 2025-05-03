@@ -13,6 +13,8 @@ def generate_movie_data(movie: Movie) -> dict:
         'description': movie.description,
         'difficulty': movie.difficulty,
         'duration': movie.duration,
+        'views_count': movie.views_count,
+        'likes_count': movie.likes_count,
         'cover_url': ("https://s3.lingofilm.ru" + movie.cover_url) if movie.cover_url else None,
         'thumbnail_url': ("https://s3.lingofilm.ru" + movie.thumbnail_url) if movie.thumbnail_url else None,
         'genres': [genre.name for genre in movie.genres],
@@ -20,7 +22,6 @@ def generate_movie_data(movie: Movie) -> dict:
         'actors': [actor.name for actor in movie.actors],
         'media': [{'quality': media.quality, 'url': "https://s3.lingofilm.ru" + media.url} for media in movie.media],
         'subtitles': [{'language': subtitle.language, 'url': "https://s3.lingofilm.ru" + subtitle.url} for subtitle in movie.subtitles],
-        'statistics': {'views': movie.statistics.views, 'likes': movie.statistics.likes} if movie.statistics else None
     }
 
 async def get_movie(movie_slug: str, session: AsyncSession) -> Optional[dict]:
@@ -31,7 +32,6 @@ async def get_movie(movie_slug: str, session: AsyncSession) -> Optional[dict]:
             joinedload(Movie.genres),
             joinedload(Movie.actors),
             joinedload(Movie.media),
-            joinedload(Movie.statistics),
             joinedload(Movie.subtitles),
             joinedload(Movie.countries)
         )
@@ -53,7 +53,6 @@ async def get_movies(session: AsyncSession) -> Optional[dict]:
             joinedload(Movie.genres),
             joinedload(Movie.actors),
             joinedload(Movie.media),
-            joinedload(Movie.statistics),
             joinedload(Movie.subtitles),
             joinedload(Movie.countries)
         )
@@ -75,7 +74,6 @@ async def get_movies_by_filter(session: AsyncSession, genre:str=None, actor: str
         joinedload(Movie.genres),
         joinedload(Movie.actors),
         joinedload(Movie.media),
-        joinedload(Movie.statistics),
         joinedload(Movie.subtitles),
         joinedload(Movie.countries)
     )
@@ -129,7 +127,6 @@ async def get_movies_for_search(session: AsyncSession, query: str) -> Optional[d
         joinedload(Movie.genres),
         joinedload(Movie.actors),
         joinedload(Movie.media),
-        joinedload(Movie.statistics),
         joinedload(Movie.subtitles),
         joinedload(Movie.countries)
     )

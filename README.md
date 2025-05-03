@@ -29,3 +29,7 @@ API_DOMAIN=https://api.yorsite.ru
 NEXT_PUBLIC_API_URL=https://api.yorsite.ru
 FRONTEND_PORT=3000
 ```
+
+
+alembic revision --autogenerate -m "Edit username property"                                                                                                                      
+   
