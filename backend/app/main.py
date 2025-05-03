@@ -7,6 +7,7 @@ from app.routers.interactions import router as interactions_router
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from app.tasks.sync_tasks import sync_likes_to_database
+from app.routers.vocabulary import router as vocabulary_router
 
 app = FastAPI()
 
@@ -23,6 +24,7 @@ app.include_router(users_router, prefix='/api/users')
 app.include_router(movies_router, prefix='/api/movies')
 app.include_router(filters_router, prefix='/api/filters')
 app.include_router(interactions_router, prefix='/api/interactions')
+app.include_router(vocabulary_router, prefix='/api/vocabulary')
 
 
 

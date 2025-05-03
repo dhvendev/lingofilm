@@ -27,6 +27,7 @@ class User(Base):
 
     subscriptions = relationship("Subscription", secondary="user_subscriptions", back_populates="users")
     likes = relationship("UserLike", back_populates="user")
+    vocabulary = relationship("UserVocabulary", back_populates="user")
 
     def __repr__(self):
         return f"User(id={self.id}, email={self.email}, username={self.username}, gender={self.gender}, date_of_birth={self.date_of_birth}, created_at={self.created_at})"
@@ -71,3 +72,25 @@ class UserLike(Base):
     )
 
     user = relationship("User", back_populates="likes")
+
+
+class UserVocabulary(Base):
+    """Личный словарь пользователя"""
+    __tablename__ = "user_vocabulary"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    english_word = Column(String(200), nullable=False)
+    russian_translation = Column(String(200), nullable=False)
+    is_learned = Column(Boolean, default=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    learned_at = Column(DateTime(timezone=True), nullable=True)
+    
+    __table_args__ = (
+        UniqueConstraint('user_id', 'english_word', 'russian_translation', name='unique_user_word'),
+    )
+    
+    user = relationship("User", back_populates="vocabulary")
+    
+    def __repr__(self):
+        return f"UserVocabulary(user_id={self.user_id}, word={self.english_word}, status={'learned' if self.is_learned else 'learning'})"

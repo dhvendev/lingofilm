@@ -16,3 +16,18 @@ class CreateUserModel(BaseModel):
 
 class NewPicture(BaseModel):
     image: str
+
+class AddToVocabulary(BaseModel):
+    word: str
+
+class VocabularyWord(BaseModel):
+    id: int
+    english_word: str
+    russian_translation: str
+    is_learned: bool
+    created_at: datetime
+    learned_at: Optional[datetime] = None
+
+class UpdateWordStatus(BaseModel):
+    word_id: int
+    is_learned: bool
