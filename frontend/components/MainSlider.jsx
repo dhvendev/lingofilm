@@ -3,7 +3,7 @@ import { SquarePlay, LibraryBig, Captions, Clock9, Disc} from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import styles from "@/styles/MainSlider.module.css";
+
 import { getFeaturedContent} from "@/services/axiosMethods";
 
 export default async function MainSlider() {
@@ -46,7 +46,7 @@ export default async function MainSlider() {
                     {movies && movies.map((movie) => (
                         <CarouselItem key={movie.id} className="flex flex-col justify-center items-center relative w-full h-[100vh]">
                             <div className="flex flex-col relative z-10 w-[95vw] md:w-[90vw] lg:w-[80vw]">
-                                <div className={`flex flex-col gap-2 p-4 min-h-[35vh] rounded-lg w-full lg:w-1/2 ${styles.bgOpacity}`}>
+                            <div className="flex flex-col gap-2 p-4 min-h-[35vh] rounded-lg w-full lg:w-1/2 bg-black bg-opacity-60">
                                     <h2 className="text-4xl md:text-5xl font-bold pt-3">{movie.title}<span className="text-base">{movie.year}</span></h2>
                                         <span className="flex items-center py-1"><Clock9 size={20} color="#FFFFFF" strokeWidth={1.5} className="my-auto mr-2"/>{movie.duration} минут</span>
                                         <span className="flex items-center py-1"><Disc size={20} color="#FFFFFF" strokeWidth={1.5} className="my-auto mr-2"/>{movie.genres.map(g => g).join(", ")}</span>
@@ -71,8 +71,8 @@ export default async function MainSlider() {
                                     className="object-cover"
                                 />
                             </div>}
-                            <div className={`absolute top-0 w-full h-0 ${styles.shadowTop} z-10`}></div>
-                            <div className={`absolute bottom-0 h-5 bg-black blur-[5] w-full z-10 ${styles.shadowBottom}`}></div>
+                            <div className="absolute top-0 left-0 w-full h-[150px] bg-gradient-to-b from-[rgba(10,10,10,0.7)] via-[rgba(10,10,10,0.3)] to-transparent z-10"></div>
+                            <div className="absolute bottom-0 left-0 w-full h-[150px] bg-gradient-to-t from-[rgba(10,10,10,1)] via-[rgba(10,10,10,0.7)] to-transparent z-10"></div>
                         </CarouselItem>
                     ))}
                 </CarouselContent>

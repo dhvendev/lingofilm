@@ -44,6 +44,8 @@ class Genre(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(100), unique=True, nullable=False)
+    created_at = Column(DateTime, server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
     
     def __repr__(self):
         return f"Genre(id={self.id}, name={self.name})"
@@ -53,6 +55,8 @@ class Country(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(100), unique=True, nullable=False)
+    created_at = Column(DateTime, server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
     
     def __repr__(self):
         return f"Country(id={self.id}, name={self.name})"
@@ -62,10 +66,12 @@ class Actor(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255), nullable=False)
-    birth_date = Column(Date, nullable=True)
+    eng_name = Column(String(255), nullable=True)
+    created_at = Column(DateTime, server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
     
     def __repr__(self):
-        return f"Actor(id={self.id}, name={self.name}, birth_date={self.birth_date})"
+        return f"Actor(id={self.id}, name={self.name})"
 
 class Media(Base):
     __tablename__ = "media"
@@ -75,6 +81,8 @@ class Media(Base):
     episode_id = Column(Integer, ForeignKey("episodes.id"), nullable=True)
     quality = Column(String(50), nullable=False)
     url = Column(String(500), nullable=False)
+    created_at = Column(DateTime, server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
     
     def __repr__(self):
         return f"Media(id={self.id}, type={self.type}, url={self.url})"
@@ -87,6 +95,8 @@ class Subtitle(Base):
     episode_id = Column(Integer, ForeignKey("episodes.id"), nullable=True)
     language = Column(String(50), nullable=False)
     url = Column(String(500), nullable=False)
+    created_at = Column(DateTime, server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
     
     def __repr__(self):
         return f"Subtitle(id={self.id}, language={self.language}, url={self.url})"
@@ -100,7 +110,8 @@ class Movie(Base):
     description = Column(String, nullable=True)
     duration = Column(Integer, nullable=False)  # В минутах
     slug = Column(String(255), unique=True, nullable=False)
-    created_at = Column(Date, nullable=False, default=func.now())
+    created_at = Column(DateTime, server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
     cover_url = Column(String(500), nullable=True)
     thumbnail_url = Column(String(500), nullable=True)
     difficulty = Column(String(50), nullable=False)
@@ -124,7 +135,8 @@ class Series(Base):
     title = Column(String(255), nullable=False)
     year = Column(Integer, nullable=True)
     description = Column(String, nullable=True)
-    created_at = Column(Date, nullable=False, default=func.now())
+    created_at = Column(DateTime, server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
     cover_url = Column(String(500), nullable=True)
     thumbnail_url = Column(String(500), nullable=True)
     difficulty = Column(String(50), nullable=False)
@@ -147,6 +159,8 @@ class Season(Base):
     id = Column(Integer, primary_key=True, index=True)
     series_id = Column(Integer, ForeignKey("series.id"), nullable=False)
     season_number = Column(Integer, nullable=False)
+    created_at = Column(DateTime, server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
     
     series = relationship("Series", back_populates="seasons")
     episodes = relationship("Episode", back_populates="season")
@@ -163,6 +177,8 @@ class Episode(Base):
     episode_number = Column(Integer, nullable=False)
     duration = Column(Integer, nullable=False)  # В минутах
     release_date = Column(Date, nullable=True)
+    created_at = Column(DateTime, server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
 
     media = relationship("Media", backref="episode")
     subtitles = relationship("Subtitle", backref="episode")

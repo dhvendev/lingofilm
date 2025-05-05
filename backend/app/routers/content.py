@@ -84,10 +84,7 @@ async def get_movies_endpoint(
     return movies
 
 @router.post('/getSeries')
-async def get_series_endpoint(
-    limit: int = 10,
-    session: AsyncSession = Depends(get_db)
-):
+async def get_series_endpoint(limit: int = 10, session: AsyncSession = Depends(get_db)):
     """
     Получение популярных сериалов
     

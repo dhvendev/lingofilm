@@ -5,9 +5,11 @@ from sqlalchemy.orm import joinedload
 from app.models.movies import Movie, Series, ContentPopularityMetrics
 from typing import Optional, List, Dict, Any, Literal
 
-# Вспомогательные функции для форматирования данных
-def generate_movie_data(movie: Movie) -> dict:
-    """Форматирует данные фильма для API ответа"""
+def s3_url(path: str | None) -> str | None:
+    return f"https://s3.lingofilm.ru{path}" if path else None
+
+
+def _base_movie_dict(movie: Movie) -> dict:
     return {
         'id': movie.id,
         'title': movie.title,
@@ -18,17 +20,48 @@ def generate_movie_data(movie: Movie) -> dict:
         'duration': movie.duration,
         'views_count': movie.views_count,
         'likes_count': movie.likes_count,
-        'cover_url': ("https://s3.lingofilm.ru" + movie.cover_url) if movie.cover_url else None,
-        'thumbnail_url': ("https://s3.lingofilm.ru" + movie.thumbnail_url) if movie.thumbnail_url else None,
+        'cover_url': s3_url(movie.cover_url),
+        'thumbnail_url': s3_url(movie.thumbnail_url)
+    }
+
+
+def generate_movie_data(movie: Movie) -> dict:
+    data = _base_movie_dict(movie)
+    data.update({
         'genres': [genre.name for genre in movie.genres],
         'countries': [country.name for country in movie.countries],
         'actors': [actor.name for actor in movie.actors],
-        'media': [{'quality': media.quality, 'url': "https://s3.lingofilm.ru" + media.url} for media in movie.media],
-        'subtitles': [{'language': subtitle.language, 'url': "https://s3.lingofilm.ru" + subtitle.url} for subtitle in movie.subtitles],
-    }
+        'media': [{'quality': m.quality, 'url': f"https://s3.lingofilm.ru{m.url}"} for m in movie.media],
+        'subtitles': [{'language': s.language, 'url': f"https://s3.lingofilm.ru{s.url}"} for s in movie.subtitles],
+    })
+    return data
 
-def generate_series_data(series: Series) -> dict:
-    """Форматирует данные сериала для API ответа"""
+def generate_movie_simple(movie: Movie) -> dict:
+    return _base_movie_dict(movie)
+
+# # Вспомогательные функции для форматирования данных
+# def generate_movie_data(movie: Movie) -> dict:
+#     """Форматирует данные фильма для API ответа"""
+#     return {
+#         'id': movie.id,
+#         'title': movie.title,
+#         'slug': movie.slug,
+#         'year': movie.year,
+#         'description': movie.description,
+#         'difficulty': movie.difficulty,
+#         'duration': movie.duration,
+#         'views_count': movie.views_count,
+#         'likes_count': movie.likes_count,
+#         'cover_url': ("https://s3.lingofilm.ru" + movie.cover_url) if movie.cover_url else None,
+#         'thumbnail_url': ("https://s3.lingofilm.ru" + movie.thumbnail_url) if movie.thumbnail_url else None,
+#         'genres': [genre.name for genre in movie.genres],
+#         'countries': [country.name for country in movie.countries],
+#         'actors': [actor.name for actor in movie.actors],
+#         'media': [{'quality': media.quality, 'url': "https://s3.lingofilm.ru" + media.url} for media in movie.media],
+#         'subtitles': [{'language': subtitle.language, 'url': "https://s3.lingofilm.ru" + subtitle.url} for subtitle in movie.subtitles],
+#     }
+
+def _base_series_dict(series: Series) -> dict:
     return {
         'id': series.id,
         'title': series.title,
@@ -38,13 +71,23 @@ def generate_series_data(series: Series) -> dict:
         'difficulty': series.difficulty,
         'views_count': series.views_count,
         'likes_count': series.likes_count,
-        'cover_url': ("https://s3.lingofilm.ru" + series.cover_url) if series.cover_url else None,
-        'thumbnail_url': ("https://s3.lingofilm.ru" + series.thumbnail_url) if series.thumbnail_url else None,
+        'cover_url': s3_url(series.cover_url),
+        'thumbnail_url': s3_url(series.thumbnail_url)
+    }
+
+def generate_series_data(series: Series) -> dict:
+    data = _base_series_dict(series)
+    data.update({
         'genres': [genre.name for genre in series.genres],
         'countries': [country.name for country in series.countries],
         'actors': [actor.name for actor in series.actors],
         'seasons': len(series.seasons) if series.seasons else 0,
-    }
+    })
+    return data
+
+def generate_series_simple(series: Series) -> dict:
+    return _base_series_dict(series)
+
 
 async def get_featured_content(session: AsyncSession, limit: int = 5) -> Optional[List[Dict[str, Any]]]:
     """
@@ -107,6 +150,7 @@ async def get_featured_content(session: AsyncSession, limit: int = 5) -> Optiona
         return None
     
     return result[:limit]
+
 
 # 2. Функция для получения топового контента (по просмотрам/лайкам) за период
 async def get_popular_content(
