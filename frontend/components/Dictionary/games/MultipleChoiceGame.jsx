@@ -1,25 +1,26 @@
 "use client"
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
     Check, 
     X, 
     ChevronRight, 
-    RotateCcw,
-    Trophy,
-    BarChart,
-    BookMarked,
-    GamepadIcon,
-    Sparkles
 } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { shuffleArray } from '@/utils/vocabularyUtils';
+import { GameSetup, GameStats, initializeGameWords } from './index';
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 
 export default function MultipleChoiceGame({ vocabulary, updateWordStatus, onBackToGames }) {
+    // Game setup states
+    const [gameSetup, setGameSetup] = useState(true);
+    const [gameMode, setGameMode] = useState(null);
+    const [wordCount, setWordCount] = useState(null);
+    
+    // Game states
     const [gameWords, setGameWords] = useState([]);
     const [gameIndex, setGameIndex] = useState(0);
     const [currentGameWord, setCurrentGameWord] = useState(null);
@@ -31,40 +32,36 @@ export default function MultipleChoiceGame({ vocabulary, updateWordStatus, onBac
     const [longestStreak, setLongestStreak] = useState(0);
     const [gameHistory, setGameHistory] = useState([]);
     const [showStats, setShowStats] = useState(false);
-    const [gameInitialized, setGameInitialized] = useState(false);
     
-    // Initialize game
-    useEffect(() => {
-        // Only initialize game if not already initialized
-        if (!gameInitialized && vocabulary.length >= 4) {
-            // Select words for game (preferably unlearned ones)
-            const unlearned = vocabulary.filter(item => !item.is_learned);
-            const wordsForGame = unlearned.length >= 10 
-                ? unlearned.slice(0, 10) 
-                : [...unlearned, ...vocabulary.filter(item => item.is_learned).slice(0, 10 - unlearned.length)];
-            
-            if (wordsForGame.length > 0) {
-                const shuffled = shuffleArray(wordsForGame);
-                setGameWords(shuffled);
-                setGameIndex(0);
-                setCurrentGameWord(shuffled[0]);
-                generateOptions(shuffled[0], vocabulary);
-                setSelectedOption(null);
-                setIsCorrect(null);
-                setGameScore(0);
-                setStreak(0);
-                setGameHistory([]);
-                setShowStats(false);
-                setGameInitialized(true);
-            } else {
-                toast.error("Not enough words for the game. Add at least 4 words to your dictionary.");
-                onBackToGames();
-            }
-        } else if (!gameInitialized && vocabulary.length < 4) {
+    // Initialize game with selected settings
+    const startGame = (mode, count) => {
+        if (!mode || !count) {
             toast.error("Not enough words for the game. Add at least 4 words to your dictionary.");
             onBackToGames();
+            return;
         }
-    }, [vocabulary, onBackToGames, gameInitialized]);
+        
+        const selectedWords = initializeGameWords(vocabulary, mode, count);
+        
+        if (selectedWords.length > 0) {
+            setGameWords(selectedWords);
+            setGameIndex(0);
+            setCurrentGameWord(selectedWords[0]);
+            generateOptions(selectedWords[0], vocabulary);
+            setSelectedOption(null);
+            setIsCorrect(null);
+            setGameScore(0);
+            setStreak(0);
+            setGameHistory([]);
+            setShowStats(false);
+            setGameSetup(false);
+            setGameMode(mode);
+            setWordCount(count);
+        } else {
+            toast.error("No words available for game.");
+            onBackToGames();
+        }
+    };
 
     // Generate 4 options for multiple choice
     const generateOptions = (correctWord, allWords) => {
@@ -94,7 +91,8 @@ export default function MultipleChoiceGame({ vocabulary, updateWordStatus, onBac
         setGameHistory([...gameHistory, { 
             word: currentGameWord, 
             userAnswer: option,
-            correct: answerIsCorrect 
+            correct: answerIsCorrect,
+            wasAlreadyLearned: currentGameWord.is_learned
         }]);
 
         if (answerIsCorrect) {
@@ -132,171 +130,55 @@ export default function MultipleChoiceGame({ vocabulary, updateWordStatus, onBac
         }
     };
 
-    // Restart game
+    // Restart game (go back to setup)
     const restartGame = () => {
-        const unlearned = vocabulary.filter(item => !item.is_learned);
-        const wordsForGame = unlearned.length >= 10 
-            ? unlearned.slice(0, 10) 
-            : [...unlearned, ...vocabulary.filter(item => item.is_learned).slice(0, 10 - unlearned.length)];
-        
-        if (wordsForGame.length > 0) {
-            const shuffled = shuffleArray(wordsForGame);
-            setGameWords(shuffled);
-            setGameIndex(0);
-            setCurrentGameWord(shuffled[0]);
-            generateOptions(shuffled[0], vocabulary);
-            setSelectedOption(null);
-            setIsCorrect(null);
-            setGameScore(0);
-            setStreak(0);
-            setGameHistory([]);
-            setShowStats(false);
-            setGameInitialized(true);
-        }
+        setGameSetup(true);
+        setGameScore(0);
+        setStreak(0);
+        setLongestStreak(0);
+        setGameHistory([]);
+        setShowStats(false);
+        setGameIndex(0);
+        setCurrentGameWord(null);
+        setOptions([]);
+        setSelectedOption(null);
+        setIsCorrect(null);
+        setGameMode(null);
+        setWordCount(null);
     };
 
-    // Calculate game stats
-    const calculateAccuracy = () => {
-        if (gameHistory.length === 0) return 0;
-        const correctAnswers = gameHistory.filter(item => item.correct).length;
-        return Math.round((correctAnswers / gameHistory.length) * 100);
-    };
-
-    if (showStats) {
+    // Game setup screen
+    if (gameSetup) {
         return (
-            <div className="space-y-4 mt-4">
-                <Card>
-                    <CardHeader>
-                        <div className="flex justify-between items-center">
-                            <CardTitle className="flex items-center gap-2">
-                                <Trophy className="h-5 w-5 text-yellow-500" />
-                                Game Results
-                            </CardTitle>
-                            <Badge 
-                                className={calculateAccuracy() >= 70 ? "bg-green-600" : calculateAccuracy() >= 40 ? "bg-yellow-500" : "bg-red-500"}
-                            >
-                                {calculateAccuracy()}% Accuracy
-                            </Badge>
-                        </div>
-                        <CardDescription>
-                            Multiple Choice Game - {gameScore}/{gameWords.length} correct
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="space-y-6">
-                            {/* Game stats */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                                <Card className="bg-muted/30">
-                                    <CardHeader className="pb-2">
-                                        <CardTitle className="text-sm flex items-center">
-                                            <BarChart className="h-4 w-4 mr-2 text-blue-500" />
-                                            Score
-                                        </CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-2xl font-bold">{gameScore}/{gameWords.length}</p>
-                                    </CardContent>
-                                </Card>
-                                
-                                <Card className="bg-muted/30">
-                                    <CardHeader className="pb-2">
-                                        <CardTitle className="text-sm flex items-center">
-                                            <Trophy className="h-4 w-4 mr-2 text-yellow-500" />
-                                            Longest Streak
-                                        </CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-2xl font-bold">{longestStreak}</p>
-                                    </CardContent>
-                                </Card>
-                                
-                                <Card className="bg-muted/30">
-                                    <CardHeader className="pb-2">
-                                        <CardTitle className="text-sm flex items-center">
-                                            <Sparkles className="h-4 w-4 mr-2 text-green-500" />
-                                            Words Learned
-                                        </CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-2xl font-bold">
-                                            {gameHistory.filter(item => item.correct && !item.word.is_learned).length}
-                                        </p>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                            
-                            {/* Game history */}
-                            <div>
-                                <h3 className="text-lg font-semibold mb-3 flex items-center">
-                                    <BookMarked className="h-4 w-4 mr-2" />
-                                    Answers Review
-                                </h3>
-                                <div className="rounded-md border overflow-hidden">
-                                    <table className="min-w-full divide-y divide-border">
-                                        <thead className="bg-muted/50">
-                                            <tr>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                                                    English Word
-                                                </th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                                                    Your Answer
-                                                </th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                                                    Correct Answer
-                                                </th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                                                    Result
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="bg-card divide-y divide-border">
-                                            {gameHistory.map((item, index) => (
-                                                <tr key={index} className={item.correct ? "bg-green-500/10" : "bg-red-500/10"}>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                        {item.word.english_word}
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                                        {item.userAnswer}
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                                        {item.word.russian_translation}
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                                        {item.correct ? (
-                                                            <Check className="h-5 w-5 text-green-600" />
-                                                        ) : (
-                                                            <X className="h-5 w-5 text-red-600" />
-                                                        )}
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </CardContent>
-                    <CardFooter className="flex justify-between">
-                        <Button 
-                            variant="outline" 
-                            onClick={onBackToGames}
-                        >
-                            <GamepadIcon className="h-4 w-4 mr-2" />
-                            Choose Another Game
-                        </Button>
-                        <Button 
-                            onClick={restartGame}
-                            className="bg-primary"
-                        >
-                            <RotateCcw className="h-4 w-4 mr-2" />
-                            Play Again
-                        </Button>
-                    </CardFooter>
-                </Card>
-            </div>
+            <GameSetup
+                vocabulary={vocabulary}
+                onBackToGames={onBackToGames}
+                onStartGame={startGame}
+                gameTitle="Разнообразный выбор"
+                minWordsForGame={4}
+            />
         );
     }
 
+    // Game stats screen
+    if (showStats) {
+        const tableHeaders = ['English Word', 'Your Answer', 'Correct Answer', 'Result'];
+        
+        return (
+            <GameStats
+                gameHistory={gameHistory}
+                gameScore={gameScore}
+                totalWords={gameWords.length}
+                longestStreak={longestStreak}
+                onBackToGames={onBackToGames}
+                onRestartGame={restartGame}
+                gameTitle="Разнообразный выбор"
+                tableHeaders={tableHeaders}
+            />
+        );
+    }
+
+    // Game playing screen
     return (
         <div className="space-y-4 mt-4">
             <Card>
@@ -311,7 +193,7 @@ export default function MultipleChoiceGame({ vocabulary, updateWordStatus, onBac
                             </Badge>
                             {streak > 2 && (
                                 <Badge className="bg-gradient-to-r from-orange-500 to-red-500 animate-pulse">
-                                    {streak} streak!
+                                    {streak} подряд!
                                 </Badge>
                             )}
                         </div>
@@ -324,7 +206,7 @@ export default function MultipleChoiceGame({ vocabulary, updateWordStatus, onBac
                             <span>Score: {gameScore}</span>
                             <span className="ml-2 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full">
                                 {gameIndex > 0 
-                                    ? Math.round(gameScore / gameIndex * 100) 
+                                    ? Math.round(gameScore / (gameIndex + 1) * 100) 
                                     : 0}%
                             </span>
                         </div>

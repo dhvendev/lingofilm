@@ -1,43 +1,25 @@
 "use client"
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
     Check, 
     X, 
-    ChevronRight, 
-    RotateCcw,
-    Trophy,
-    BarChart,
-    BookMarked,
-    GamepadIcon,
-    Sparkles,
-    Settings,
-    ArrowLeft
+    ChevronRight,
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
-import { shuffleArray } from '@/utils/vocabularyUtils';
+import { GameSetup, GameStats, initializeGameWords } from './index';
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-const GAME_MODES = {
-    LEARN: 'learn',    // Учить (не изученные)
-    REVIEW: 'review',  // Повторять (изученные)
-    MIXED: 'mixed'     // В перемешку
-};
-
-const WORD_COUNTS = [10, 20, 30, 40, 50];
-
-export default function TranslateWordGame({ vocabulary, updateWordStatus, onBackToGames }) {
+export default function TranslateWordGame({ vocabulary, updateWordStatus, onBackToGames, gameTitle }) {
     // Game setup states
     const [gameSetup, setGameSetup] = useState(true);
-    const [gameMode, setGameMode] = useState(GAME_MODES.LEARN);
-    const [wordCount, setWordCount] = useState(10);
+    const [gameMode, setGameMode] = useState(null);
+    const [wordCount, setWordCount] = useState(null);
     
     // Game states
     const [gameWords, setGameWords] = useState([]);
@@ -51,64 +33,20 @@ export default function TranslateWordGame({ vocabulary, updateWordStatus, onBack
     const [gameHistory, setGameHistory] = useState([]);
     const [showStats, setShowStats] = useState(false);
     
-    // Check if we have enough words for the selected mode and count
-    const checkAvailableWords = () => {
-        let availableWords = 0;
-        switch (gameMode) {
-            case GAME_MODES.LEARN:
-                availableWords = vocabulary.filter(item => !item.is_learned).length;
-                break;
-            case GAME_MODES.REVIEW:
-                availableWords = vocabulary.filter(item => item.is_learned).length;
-                break;
-            case GAME_MODES.MIXED:
-                availableWords = vocabulary.length;
-                break;
-        }
-        return availableWords >= wordCount;
-    };
-    
     // Initialize game with selected settings
-    const startGame = () => {
-        if (!checkAvailableWords()) {
-            const availableWords = gameMode === GAME_MODES.LEARN 
-                ? vocabulary.filter(item => !item.is_learned).length
-                : gameMode === GAME_MODES.REVIEW
-                    ? vocabulary.filter(item => item.is_learned).length
-                    : vocabulary.length;
-            
-            toast.error(`Not enough words for this mode. Available: ${availableWords}`);
+    const startGame = (mode, count) => {
+        if (!mode || !count) {
+            toast.error("Not enough words for the game. Add at least one word to your dictionary.");
+            onBackToGames();
             return;
         }
         
-        let selectedWords = [];
-        
-        switch (gameMode) {
-            case GAME_MODES.LEARN:
-                selectedWords = vocabulary.filter(item => !item.is_learned).slice(0, wordCount);
-                break;
-            case GAME_MODES.REVIEW:
-                selectedWords = vocabulary.filter(item => item.is_learned).slice(0, wordCount);
-                break;
-            case GAME_MODES.MIXED:
-                // Get half learned and half unlearned, or as close as possible
-                const unlearned = vocabulary.filter(item => !item.is_learned);
-                const learned = vocabulary.filter(item => item.is_learned);
-                const halfCount = Math.floor(wordCount / 2);
-                
-                const selectedUnlearned = unlearned.slice(0, halfCount);
-                const remainingCount = wordCount - selectedUnlearned.length;
-                const selectedLearned = learned.slice(0, remainingCount);
-                
-                selectedWords = [...selectedUnlearned, ...selectedLearned];
-                break;
-        }
+        const selectedWords = initializeGameWords(vocabulary, mode, count);
         
         if (selectedWords.length > 0) {
-            const shuffled = shuffleArray(selectedWords);
-            setGameWords(shuffled);
+            setGameWords(selectedWords);
             setGameIndex(0);
-            setCurrentGameWord(shuffled[0]);
+            setCurrentGameWord(selectedWords[0]);
             setUserAnswer("");
             setIsCorrect(null);
             setGameScore(0);
@@ -116,8 +54,11 @@ export default function TranslateWordGame({ vocabulary, updateWordStatus, onBack
             setGameHistory([]);
             setShowStats(false);
             setGameSetup(false);
+            setGameMode(mode);
+            setWordCount(count);
         } else {
             toast.error("No words available for game.");
+            onBackToGames();
         }
     };
 
@@ -198,270 +139,38 @@ export default function TranslateWordGame({ vocabulary, updateWordStatus, onBack
         setCurrentGameWord(null);
         setUserAnswer("");
         setIsCorrect(null);
-    };
-
-    // Calculate game stats
-    const calculateAccuracy = () => {
-        if (gameHistory.length === 0) return 0;
-        const correctAnswers = gameHistory.filter(item => item.correct).length;
-        return Math.round((correctAnswers / gameHistory.length) * 100);
+        setGameMode(null);
+        setWordCount(null);
     };
 
     // Game setup screen
     if (gameSetup) {
-        const availableWordsCount = gameMode === GAME_MODES.LEARN 
-            ? vocabulary.filter(item => !item.is_learned).length
-            : gameMode === GAME_MODES.REVIEW
-                ? vocabulary.filter(item => item.is_learned).length
-                : vocabulary.length;
-        
         return (
-            <div className="space-y-4 mt-4">
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <Settings className="h-5 w-5" />
-                            Game Setup
-                        </CardTitle>
-                        <CardDescription>
-                            Configure your translation game before starting
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                        {/* Game Mode Selection */}
-                        <div className="space-y-3">
-                            <Label className="text-base font-semibold">Game Mode</Label>
-                            <RadioGroup value={gameMode} onValueChange={setGameMode}>
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value={GAME_MODES.LEARN} id="learn" />
-                                    <Label htmlFor="learn" className="cursor-pointer">
-                                        <div className="flex items-center gap-2">
-                                            <Sparkles className="h-4 w-4 text-green-500" />
-                                            Учить (не изученные) 
-                                            <Badge variant="secondary">
-                                                {vocabulary.filter(item => !item.is_learned).length} слов
-                                            </Badge>
-                                        </div>
-                                    </Label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value={GAME_MODES.REVIEW} id="review" />
-                                    <Label htmlFor="review" className="cursor-pointer">
-                                        <div className="flex items-center gap-2">
-                                            <RotateCcw className="h-4 w-4 text-blue-500" />
-                                            Повторять (изученные)
-                                            <Badge variant="secondary">
-                                                {vocabulary.filter(item => item.is_learned).length} слов
-                                            </Badge>
-                                        </div>
-                                    </Label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value={GAME_MODES.MIXED} id="mixed" />
-                                    <Label htmlFor="mixed" className="cursor-pointer">
-                                        <div className="flex items-center gap-2">
-                                            <GamepadIcon className="h-4 w-4 text-purple-500" />
-                                            В перемешку
-                                            <Badge variant="secondary">
-                                                {vocabulary.length} слов
-                                            </Badge>
-                                        </div>
-                                    </Label>
-                                </div>
-                            </RadioGroup>
-                        </div>
-                        
-                        {/* Word Count Selection */}
-                        <div className="space-y-3">
-                            <div className="flex justify-between items-center">
-                                <Label className="text-base font-semibold">Number of Words</Label>
-                                <span className="text-sm text-muted-foreground">
-                                    Available: {availableWordsCount}
-                                </span>
-                            </div>
-                            <Select value={wordCount.toString()} onValueChange={(value) => setWordCount(parseInt(value))}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select word count" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {WORD_COUNTS.map(count => (
-                                        <SelectItem 
-                                            key={count} 
-                                            value={count.toString()}
-                                            disabled={count > availableWordsCount}
-                                        >
-                                            {count} words
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        
-                        {/* Warning if not enough words */}
-                        {!checkAvailableWords() && (
-                            <div className="p-4 bg-yellow-100 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-md">
-                                <p className="text-sm text-yellow-800 dark:text-yellow-200">
-                                    ⚠️ Not enough words available for {wordCount} words in this mode.
-                                    Available: {availableWordsCount} words
-                                </p>
-                            </div>
-                        )}
-                    </CardContent>
-                    <CardFooter className="flex justify-between">
-                        <Button 
-                            variant="outline" 
-                            onClick={onBackToGames}
-                        >
-                            <ArrowLeft className="h-4 w-4 mr-2" />
-                            Back to Games
-                        </Button>
-                        <Button 
-                            onClick={startGame}
-                            disabled={!checkAvailableWords()}
-                            className="bg-primary"
-                        >
-                            Start Game
-                            <ChevronRight className="h-4 w-4 ml-2" />
-                        </Button>
-                    </CardFooter>
-                </Card>
-            </div>
+            <GameSetup
+                vocabulary={vocabulary}
+                onBackToGames={onBackToGames}
+                onStartGame={startGame}
+                gameTitle={gameTitle}
+                minWordsForGame={1}
+            />
         );
     }
 
     // Game stats screen
     if (showStats) {
+        const tableHeaders = ['English Word', 'Your Answer', 'Correct Answer', 'Result'];
+        
         return (
-            <div className="space-y-4 mt-4">
-                <Card>
-                    <CardHeader>
-                        <div className="flex justify-between items-center">
-                            <CardTitle className="flex items-center gap-2">
-                                <Trophy className="h-5 w-5 text-yellow-500" />
-                                Game Results
-                            </CardTitle>
-                            <Badge 
-                                className={calculateAccuracy() >= 70 ? "bg-green-600" : calculateAccuracy() >= 40 ? "bg-yellow-500" : "bg-red-500"}
-                            >
-                                {calculateAccuracy()}% Accuracy
-                            </Badge>
-                        </div>
-                        <CardDescription>
-                            Word Translation Game - {gameScore}/{gameWords.length} correct
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="space-y-6">
-                            {/* Game stats */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                                <Card className="bg-muted/30">
-                                    <CardHeader className="pb-2">
-                                        <CardTitle className="text-sm flex items-center">
-                                            <BarChart className="h-4 w-4 mr-2 text-blue-500" />
-                                            Score
-                                        </CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-2xl font-bold">{gameScore}/{gameWords.length}</p>
-                                    </CardContent>
-                                </Card>
-                                
-                                <Card className="bg-muted/30">
-                                    <CardHeader className="pb-2">
-                                        <CardTitle className="text-sm flex items-center">
-                                            <Trophy className="h-4 w-4 mr-2 text-yellow-500" />
-                                            Longest Streak
-                                        </CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-2xl font-bold">{longestStreak}</p>
-                                    </CardContent>
-                                </Card>
-                                
-                                <Card className="bg-muted/30">
-                                    <CardHeader className="pb-2">
-                                        <CardTitle className="text-sm flex items-center">
-                                            <Sparkles className="h-4 w-4 mr-2 text-green-500" />
-                                            Words Learned
-                                        </CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-2xl font-bold">
-                                            {gameHistory.filter(item => item.correct && !item.wasAlreadyLearned).length}
-                                        </p>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                            
-                            {/* Game history */}
-                            <div>
-                                <h3 className="text-lg font-semibold mb-3 flex items-center">
-                                    <BookMarked className="h-4 w-4 mr-2" />
-                                    Answers Review
-                                </h3>
-                                <div className="rounded-md border overflow-hidden">
-                                    <table className="min-w-full divide-y divide-border">
-                                        <thead className="bg-muted/50">
-                                            <tr>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                                                    English Word
-                                                </th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                                                    Your Answer
-                                                </th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                                                    Correct Answer
-                                                </th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                                                    Result
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="bg-card divide-y divide-border">
-                                            {gameHistory.map((item, index) => (
-                                                <tr key={index} className={item.correct ? "bg-green-500/10" : "bg-red-500/10"}>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                        {item.word.english_word}
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                                        {item.userAnswer}
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                                        {item.word.russian_translation}
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                                        {item.correct ? (
-                                                            <Check className="h-5 w-5 text-green-600" />
-                                                        ) : (
-                                                            <X className="h-5 w-5 text-red-600" />
-                                                        )}
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </CardContent>
-                    <CardFooter className="flex justify-between">
-                        <Button 
-                            variant="outline" 
-                            onClick={onBackToGames}
-                        >
-                            <GamepadIcon className="h-4 w-4 mr-2" />
-                            Choose Another Game
-                        </Button>
-                        <Button 
-                            onClick={restartGame}
-                            className="bg-primary"
-                        >
-                            <RotateCcw className="h-4 w-4 mr-2" />
-                            Play Again
-                        </Button>
-                    </CardFooter>
-                </Card>
-            </div>
+            <GameStats
+                gameHistory={gameHistory}
+                gameScore={gameScore}
+                totalWords={gameWords.length}
+                longestStreak={longestStreak}
+                onBackToGames={onBackToGames}
+                onRestartGame={restartGame}
+                gameTitle={gameTitle}
+                tableHeaders={tableHeaders}
+            />
         );
     }
 
@@ -472,7 +181,7 @@ export default function TranslateWordGame({ vocabulary, updateWordStatus, onBack
                 <CardHeader>
                     <div className="flex justify-between items-center">
                         <CardTitle>
-                            Translate Word
+                            {gameTitle}
                         </CardTitle>
                         <div className="flex items-center gap-2">
                             <Badge variant="secondary">
@@ -493,7 +202,7 @@ export default function TranslateWordGame({ vocabulary, updateWordStatus, onBack
                             <span>Score: {gameScore}</span>
                             <span className="ml-2 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full">
                                 {gameIndex > 0 
-                                    ? Math.round(gameScore / gameIndex * 100) 
+                                    ? Math.round(gameScore / (gameIndex + 1) * 100) 
                                     : 0}%
                             </span>
                         </div>
