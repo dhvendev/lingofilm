@@ -151,7 +151,7 @@ export default function DictionaryView({ vocabulary, updateWordStatus, deleteWor
         <>
             <Card className="border-none shadow-md bg-card/50">
                 <CardHeader className="pb-2">
-                    <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+                    <div className="flex flex-row justify-between md:items-center gap-4">
                         <CardTitle className="flex items-center gap-2">
                             <FileText className="h-5 w-5 text-primary" />
                             Мои слова
