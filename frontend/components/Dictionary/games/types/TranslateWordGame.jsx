@@ -5,16 +5,16 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
-import { GameSetup, GameStats, initializeGameWords } from './index';
+import { GameSetup, GameStats, initializeGameWords } from '../index';
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
-import GameSetupComponent from "./GameSetup";
-import { AnswerFeedback } from "./AnswerFeedback";
-import { GameNavigation } from "./GameNavigation";
-import ProgressInGameHeader from "./ProgressInGameHeader";
+import GameSetupComponent from "../components/GameSetupComponent";
+import { GameAnswerFeedback } from "../components/GameAnswerFeedback";
+import { GameNavigation } from "../components/GameNavigation";
+import ProgressInGameHeader from "../components/GameHeader";
 
-export default function GuessWordGame({ vocabulary, updateWordStatus, onBackToGames, gameTitle, minCountWord}) {
+export default function TranslateWordGame({ vocabulary, updateWordStatus, onBackToGames, gameTitle, minCountWord}) {
     // Game setup states
     const [gameSetup, setGameSetup] = useState(true);
     const [gameSettings, setGameSettings] = useState(null);
@@ -31,7 +31,7 @@ export default function GuessWordGame({ vocabulary, updateWordStatus, onBackToGa
     const [gameHistory, setGameHistory] = useState([]);
     const [showStats, setShowStats] = useState(false);
     
-    // Запуск игры
+    // Initialize game with selected settings
     const startGame = (settings) => {
         if (!settings) {
             toast.error("Недостаточно слов для запуска игры");
@@ -66,13 +66,13 @@ export default function GuessWordGame({ vocabulary, updateWordStatus, onBackToGa
         const normalizedUserAnswer = userAnswer.toLowerCase().trim();
         const normalizedWord = currentGameWord.english_word.toLowerCase().trim();
         const normalizedTranslation = currentGameWord.russian_translation.toLowerCase().trim();
-        const answerIsCorrect = normalizedUserAnswer === normalizedWord;
+        const answerIsCorrect = normalizedUserAnswer === normalizedTranslation;
 
         const gameItem = { 
             word: currentGameWord,
-            questionWord: normalizedTranslation,
+            questionWord: normalizedWord,
             userAnswer: userAnswer,
-            correctWord: normalizedWord,
+            correctWord: normalizedTranslation,
             correct: answerIsCorrect,
             wasAlreadyLearned: currentGameWord.is_learned
         };
@@ -88,12 +88,7 @@ export default function GuessWordGame({ vocabulary, updateWordStatus, onBackToGa
             
             // If answer is correct and word is not marked as learned, mark it
             if (!currentGameWord.is_learned) {
-                try {
-                    await updateWordStatus(currentGameWord.id, true);
-                    toast.success("Word marked as learned!");
-                } catch (error) {
-                    console.error("Error updating word status:", error);
-                }
+                await updateWordStatus(currentGameWord.id, true)
             }
         } else {
             // Reset streak on wrong answer
@@ -130,7 +125,7 @@ export default function GuessWordGame({ vocabulary, updateWordStatus, onBackToGa
     // Game setup screen
     if (gameSetup) {
         return (
-            <GameSetup
+            <GameSetupComponent
                 vocabulary={vocabulary}
                 onBackToGames={onBackToGames}
                 onStartGame={startGame}
@@ -142,7 +137,7 @@ export default function GuessWordGame({ vocabulary, updateWordStatus, onBackToGa
 
     // Game stats screen
     if (showStats) {
-        const tableHeaders = ['Translation', 'Your Answer', 'Correct Answer', 'Result'];
+        const tableHeaders = ['English Word', 'Your Answer', 'Correct Answer', 'Result'];
         
         return (
             <GameStats
@@ -163,26 +158,25 @@ export default function GuessWordGame({ vocabulary, updateWordStatus, onBackToGa
         <div className="space-y-4 mt-4">
             <Card>
                 <ProgressInGameHeader gameTitle={gameTitle} gameWords={gameWords} gameIndex={gameIndex} gameScore={gameScore} streak={streak}/>
-                
                 <CardContent>
                     {currentGameWord && (
                         <div className="space-y-6">
                             <div className="border rounded-lg p-8 bg-card/50 shadow-sm text-center">
                                 <p className="font-bold text-3xl mb-2 text-primary">
-                                    {currentGameWord.russian_translation}
+                                    {currentGameWord.english_word}
                                 </p>
                             </div>
                             
                             <div>
                                 <Label htmlFor="answer" className="text-base">
-                                    Enter English word:
+                                    Enter translation:
                                 </Label>
                                 <div className="flex mt-2">
                                     <Input 
                                         id="answer"
                                         value={userAnswer}
                                         onChange={(e) => setUserAnswer(e.target.value)}
-                                        placeholder="Word..."
+                                        placeholder="Translation..."
                                         className={isCorrect === null 
                                             ? "" 
                                             : isCorrect 
@@ -202,9 +196,9 @@ export default function GuessWordGame({ vocabulary, updateWordStatus, onBackToGa
                                     </Button>
                                 </div>
                                 
-                                <AnswerFeedback 
+                                <GameAnswerFeedback
                                     isCorrect={isCorrect} 
-                                    correctAnswer={currentGameWord?.english_word}
+                                    correctAnswer={currentGameWord?.russian_translation}
                                 />
                             </div>
                         </div>

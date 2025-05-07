@@ -10,7 +10,7 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "sonner";
-import { GAME_MODES } from "./gameUtils";
+import { GAME_MODES } from "../utils/gameUtils";
 
 
 export default function GameSetupComponent({ vocabulary, onBackToGames, onStartGame, gameTitle, minCountWord = 1 }) {

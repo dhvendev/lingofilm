@@ -2,7 +2,7 @@ import { Card, CardHeader, CardContent, CardTitle, CardFooter } from "@/componen
 import { GamepadIcon, Brain } from 'lucide-react';
 import { cn } from "@/lib/utils";
 
-export default function CardGame({gameTitle,  gameDescription, gameDifficult, onClick, colorIcon}) {
+export default function DictionaryPreviewGame({gameTitle,  gameDescription, gameDifficult, onClick, colorIcon}) {
     return (
         <Card 
             className="cursor-pointer hover:shadow-md transition-shadow border-2 hover:border-primary flex flex-col justify-between"

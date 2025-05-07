@@ -2,7 +2,7 @@ import { CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 
-export default function ProgressInGameHeader({gameTitle, gameWords, gameIndex, gameScore, streak}) {
+export default function GameHeader({gameTitle, gameWords, gameIndex, gameScore, streak}) {
     return (
         <CardHeader>
             <div className="flex justify-between items-center">

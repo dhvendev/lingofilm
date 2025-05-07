@@ -1,6 +1,6 @@
 import { Check, X } from 'lucide-react';
 
-export function AnswerFeedback({ isCorrect, correctAnswer }) {
+export function GameAnswerFeedback({ isCorrect, correctAnswer }) {
     if (isCorrect === null) return null;
     
     return (

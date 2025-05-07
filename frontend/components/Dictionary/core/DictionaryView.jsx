@@ -39,7 +39,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import DialogDeleteWord from './DialogDeleteWord';
+import DialogDeleteWord from './DictionaryDeleteAlert';
 
 export default function DictionaryView({ vocabulary, updateWordStatus, deleteWord, addWord }) {
     const [searchTerm, setSearchTerm] = useState("");

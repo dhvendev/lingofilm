@@ -5,12 +5,12 @@ import { TabsContent } from "@/components/ui/tabs";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { GamepadIcon } from 'lucide-react';
 
-import TranslateWordGame from "./games/TranslateWordGame";
-import GuessWordGame from "./games/GuessWordGame";
-import MultipleChoiceGame from "./games/MultipleChoiceGame";
-import CardGame from "./CardGame";
+import TranslateWordGame from "../games/types/TranslateWordGame";
+import GuessWordGame from "../games/types/GuessWordGame";
+import MultipleChoiceGame from "../games/types/MultipleChoiceGame";
+import CardGame from "./DictionaryPreviewGame";
 
-export default function DictionaryGamesView({ vocabulary, updateWordStatus }) {
+export default function DictionaryGames({ vocabulary, updateWordStatus }) {
     const [gameMode, setGameMode] = useState(""); // "translate", "guessWord", "multipleChoice"
     // TODO В дальнейшем можно переделать вывод карточек в массив и вывести через map
 

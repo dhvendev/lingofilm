@@ -5,16 +5,14 @@ import { useState } from "react";
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
-import { toast } from 'sonner';
-import useVocabulary from '@/hooks/useVocabulary';
-import DictionaryHeader from "@/components/Dictionary/DictionaryHeader";
-import DictionaryInfo from "@/components/Dictionary/DictionaryInfo";
-import DictionaryView from "@/components/Dictionary/DictionaryView";
-import DictionaryGamesView from "@/components/Dictionary/DictionaryGamesView";
 import {Lock} from 'lucide-react'
-import DictionarySkeleton from "@/components/Dictionary/DictionarySkeleton";
-import DictionaryError from "@/components/Dictionary/DictionaryError";
+import useVocabulary from '@/hooks/useVocabulary';
+import DictionaryHeader from "@/components/Dictionary/core/DictionaryHeader";
+import DictionaryInfo from "@/components/Dictionary/core/DictionaryInfo";
+import DictionaryView from "@/components/Dictionary/core/DictionaryView";
+import DictionaryGames from "@/components/Dictionary/core/DictionaryGames";
+import DictionarySkeleton from "@/components/Dictionary/core/DictionarySkeleton";
+import DictionaryError from "@/components/Dictionary/core/DictionaryError";
 
 export default function Page() {
     const userContext = useUser();
@@ -81,7 +79,7 @@ export default function Page() {
                                 addWord={addWord}
                             />
                         ) : (
-                            <DictionaryGamesView 
+                            <DictionaryGames
                                 vocabulary={vocabulary}
                                 updateWordStatus={updateWordStatus}
                             />
