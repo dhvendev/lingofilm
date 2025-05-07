@@ -62,6 +62,7 @@ export default function DictionaryGamesView({ vocabulary, updateWordStatus }) {
                     updateWordStatus={updateWordStatus}
                     onBackToGames={() => setGameMode("")}
                     gameTitle={'Перевод слова'}
+                    minCountWord={1}
                 />
             ) : gameMode === "guessWord" ? (
                 <GuessWordGame
@@ -69,6 +70,7 @@ export default function DictionaryGamesView({ vocabulary, updateWordStatus }) {
                     updateWordStatus={updateWordStatus}
                     onBackToGames={() => setGameMode("")}
                     gameTitle={'Угадай слово'}
+                    minCountWord={1}
                 />
             ) : gameMode === "multipleChoice" ? (
                 <MultipleChoiceGame
@@ -76,6 +78,7 @@ export default function DictionaryGamesView({ vocabulary, updateWordStatus }) {
                     updateWordStatus={updateWordStatus}
                     onBackToGames={() => setGameMode("")}
                     gameTitle={'Разнообразный выбор'}
+                    minCountWord={4}
                 />
             ) : null}
         </TabsContent>

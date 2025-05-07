@@ -1,25 +1,23 @@
 "use client"
 
 import { useState } from "react";
-import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
-    Check, 
-    X, 
-    ChevronRight,
-} from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { GameSetup, GameStats, initializeGameWords } from './index';
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
+import GameSetupComponent from "./GameSetup";
+import { AnswerFeedback } from "./AnswerFeedback";
+import { GameNavigation } from "./GameNavigation";
+import ProgressInGameHeader from "./ProgressInGameHeader";
 
-export default function TranslateWordGame({ vocabulary, updateWordStatus, onBackToGames, gameTitle }) {
+export default function TranslateWordGame({ vocabulary, updateWordStatus, onBackToGames, gameTitle, minCountWord}) {
     // Game setup states
     const [gameSetup, setGameSetup] = useState(true);
-    const [gameMode, setGameMode] = useState(null);
-    const [wordCount, setWordCount] = useState(null);
+    const [gameSettings, setGameSettings] = useState(null);
     
     // Game states
     const [gameWords, setGameWords] = useState([]);
@@ -34,14 +32,14 @@ export default function TranslateWordGame({ vocabulary, updateWordStatus, onBack
     const [showStats, setShowStats] = useState(false);
     
     // Initialize game with selected settings
-    const startGame = (mode, count) => {
-        if (!mode || !count) {
-            toast.error("Not enough words for the game. Add at least one word to your dictionary.");
+    const startGame = (settings) => {
+        if (!settings) {
+            toast.error("Недостаточно слов для запуска игры");
             onBackToGames();
             return;
         }
         
-        const selectedWords = initializeGameWords(vocabulary, mode, count);
+        const selectedWords = initializeGameWords(vocabulary, settings.mode, settings.wordCount);
         
         if (selectedWords.length > 0) {
             setGameWords(selectedWords);
@@ -54,10 +52,9 @@ export default function TranslateWordGame({ vocabulary, updateWordStatus, onBack
             setGameHistory([]);
             setShowStats(false);
             setGameSetup(false);
-            setGameMode(mode);
-            setWordCount(count);
+            setGameSettings(settings);
         } else {
-            toast.error("No words available for game.");
+            toast.error("Недостаточно слов для запуска игры");
             onBackToGames();
         }
     };
@@ -67,12 +64,15 @@ export default function TranslateWordGame({ vocabulary, updateWordStatus, onBack
         if (!currentGameWord || !userAnswer.trim()) return;
 
         const normalizedUserAnswer = userAnswer.toLowerCase().trim();
+        const normalizedWord = currentGameWord.english_word.toLowerCase().trim();
         const normalizedTranslation = currentGameWord.russian_translation.toLowerCase().trim();
         const answerIsCorrect = normalizedUserAnswer === normalizedTranslation;
 
         const gameItem = { 
-            word: currentGameWord, 
+            word: currentGameWord,
+            questionWord: normalizedWord,
             userAnswer: userAnswer,
+            correctWord: normalizedTranslation,
             correct: answerIsCorrect,
             wasAlreadyLearned: currentGameWord.is_learned
         };
@@ -88,12 +88,7 @@ export default function TranslateWordGame({ vocabulary, updateWordStatus, onBack
             
             // If answer is correct and word is not marked as learned, mark it
             if (!currentGameWord.is_learned) {
-                try {
-                    await updateWordStatus(currentGameWord.id, true);
-                    toast.success("Word marked as learned!");
-                } catch (error) {
-                    console.error("Error updating word status:", error);
-                }
+                await updateWordStatus(currentGameWord.id, true)
             }
         } else {
             // Reset streak on wrong answer
@@ -127,22 +122,6 @@ export default function TranslateWordGame({ vocabulary, updateWordStatus, onBack
         }
     };
 
-    // Restart game (go back to setup)
-    const restartGame = () => {
-        setGameSetup(true);
-        setGameScore(0);
-        setStreak(0);
-        setLongestStreak(0);
-        setGameHistory([]);
-        setShowStats(false);
-        setGameIndex(0);
-        setCurrentGameWord(null);
-        setUserAnswer("");
-        setIsCorrect(null);
-        setGameMode(null);
-        setWordCount(null);
-    };
-
     // Game setup screen
     if (gameSetup) {
         return (
@@ -151,7 +130,7 @@ export default function TranslateWordGame({ vocabulary, updateWordStatus, onBack
                 onBackToGames={onBackToGames}
                 onStartGame={startGame}
                 gameTitle={gameTitle}
-                minWordsForGame={1}
+                minCountWord={minCountWord}
             />
         );
     }
@@ -167,7 +146,7 @@ export default function TranslateWordGame({ vocabulary, updateWordStatus, onBack
                 totalWords={gameWords.length}
                 longestStreak={longestStreak}
                 onBackToGames={onBackToGames}
-                onRestartGame={restartGame}
+                onRestartGame={() => setGameSetup(true)}
                 gameTitle={gameTitle}
                 tableHeaders={tableHeaders}
             />
@@ -178,36 +157,7 @@ export default function TranslateWordGame({ vocabulary, updateWordStatus, onBack
     return (
         <div className="space-y-4 mt-4">
             <Card>
-                <CardHeader>
-                    <div className="flex justify-between items-center">
-                        <CardTitle>
-                            {gameTitle}
-                        </CardTitle>
-                        <div className="flex items-center gap-2">
-                            <Badge variant="secondary">
-                                {gameIndex + 1} / {gameWords.length}
-                            </Badge>
-                            {streak > 2 && (
-                                <Badge className="bg-gradient-to-r from-orange-500 to-red-500 animate-pulse">
-                                    {streak} streak!
-                                </Badge>
-                            )}
-                        </div>
-                    </div>
-                    <CardDescription>
-                        <div className="mt-2">
-                            <Progress value={(gameIndex / gameWords.length) * 100} className="h-2" />
-                        </div>
-                        <div className="flex items-center mt-2 justify-between">
-                            <span>Score: {gameScore}</span>
-                            <span className="ml-2 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full">
-                                {gameIndex > 0 
-                                    ? Math.round(gameScore / (gameIndex + 1) * 100) 
-                                    : 0}%
-                            </span>
-                        </div>
-                    </CardDescription>
-                </CardHeader>
+                <ProgressInGameHeader gameTitle={gameTitle} gameWords={gameWords} gameIndex={gameIndex} gameScore={gameScore} streak={streak}/>
                 <CardContent>
                     {currentGameWord && (
                         <div className="space-y-6">
@@ -246,61 +196,21 @@ export default function TranslateWordGame({ vocabulary, updateWordStatus, onBack
                                     </Button>
                                 </div>
                                 
-                                {isCorrect !== null && (
-                                    <div className={`mt-4 p-4 rounded-md ${
-                                        isCorrect 
-                                            ? "bg-green-100 dark:bg-green-900/20 border border-green-200 dark:border-green-800" 
-                                            : "bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-800"
-                                        }`}
-                                    >
-                                        <div className="flex items-center">
-                                            {isCorrect ? (
-                                                <Check className="h-5 w-5 text-green-600 dark:text-green-400 mr-2" />
-                                            ) : (
-                                                <X className="h-5 w-5 text-red-600 dark:text-red-400 mr-2" />
-                                            )}
-                                            <span className={isCorrect ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}>
-                                                {isCorrect ? "Correct!" : "Incorrect!"}
-                                            </span>
-                                        </div>
-                                        {!isCorrect && (
-                                            <p className="mt-2 text-sm text-red-600 dark:text-red-400">
-                                                Correct answer: <strong>{currentGameWord.russian_translation}</strong>
-                                            </p>
-                                        )}
-                                    </div>
-                                )}
+                                <AnswerFeedback 
+                                    isCorrect={isCorrect} 
+                                    correctAnswer={currentGameWord?.russian_translation}
+                                />
                             </div>
                         </div>
                     )}
                 </CardContent>
-                <CardFooter className="flex justify-between">
-                    <Button 
-                        variant="outline" 
-                        onClick={onBackToGames}
-                    >
-                        <X className="h-4 w-4 mr-2" />
-                        Quit Game
-                    </Button>
-                    {isCorrect !== null && (
-                        <Button 
-                            onClick={handleNextWord}
-                            className="bg-primary"
-                        >
-                            {gameIndex < gameWords.length - 1 ? (
-                                <>
-                                    Next Word
-                                    <ChevronRight className="h-4 w-4 ml-2" />
-                                </>
-                            ) : (
-                                <>
-                                    See Results
-                                    <ChevronRight className="h-4 w-4 ml-2" />
-                                </>
-                            )}
-                        </Button>
-                    )}
-                </CardFooter>
+                
+                <GameNavigation 
+                    isAnswered={isCorrect !== null}
+                    onBackToGames={onBackToGames}
+                    onNextWord={handleNextWord}
+                    isLastWord={gameIndex >= gameWords.length - 1}
+                />
             </Card>
         </div>
     );

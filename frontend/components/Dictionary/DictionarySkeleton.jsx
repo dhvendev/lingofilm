@@ -3,10 +3,10 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 export default function DictionarySkeleton() {
     return (
-        <div className="container mx-auto px-4 pt-28 max-w-6xl">
-            <Card className="w-full shadow-lg py-0 pb-6">
+        <div className="container mx-auto px-4 pt-28 max-w-5xl">
+            <Card className="w-full shadow-lg py-0 pb-6 border-none">
                 <div className="relative">
-                    <div className="h-48 w-full bg-gradient-to-r from-indigo-500 to-purple-600 rounded-t-lg"></div>
+                    <div className="h-48 w-full bg-gradient-to-r from-green-900 via-green-700 to-green-500 rounded-t-lg"></div>
                     <div className="absolute bottom-4 left-8 flex items-center">
                         <Skeleton className="h-24 w-24 rounded-full" />
                         <div className="ml-4">

@@ -3,6 +3,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter }
 import { Button } from "@/components/ui/button";
 import { Trophy, BarChart, BookMarked, GamepadIcon, Sparkles, RotateCcw, Check, X } from 'lucide-react';
 import { Badge } from "@/components/ui/badge";
+import GameHistoryTable from "./GameHistoryTable";
 
 export default function GameStats({ 
     gameHistory, 
@@ -11,10 +12,9 @@ export default function GameStats({
     longestStreak, 
     onBackToGames, 
     onRestartGame, 
-    gameTitle,
-    tableHeaders 
+    gameTitle
 }) {
-    const tableHeadersRus = ['Слово', 'Ваш ответ', 'Правильный ответ', 'Результат'];
+    
     // Calculate game stats
     const calculateAccuracy = () => {
         if (gameHistory.length === 0) return 0;
@@ -91,7 +91,7 @@ export default function GameStats({
                                 <CardHeader className="pb-2">
                                     <CardTitle className="text-sm flex items-center">
                                         <Trophy className="h-4 w-4 mr-2 text-yellow-500" />
-                                        Самый длинный страйк
+                                        Самая длинная серия
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
@@ -121,28 +121,7 @@ export default function GameStats({
                                 Обзор ответов
                             </h3>
                             <div className="rounded-md border overflow-hidden">
-                                <table className="min-w-full divide-y divide-border">
-                                    <thead className="bg-muted/50">
-                                        <tr>
-                                            {tableHeadersRus.map((header, index) => (
-                                                <th key={index} className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                                                    {header}
-                                                </th>
-                                            ))}
-                                        </tr>
-                                    </thead>
-                                    <tbody className="bg-card divide-y divide-border">
-                                        {gameHistory.map((item, index) => (
-                                            <tr key={index} className={item.correct ? "bg-green-500/10" : "bg-red-500/10"}>
-                                                {tableHeaders.map((header, colIndex) => (
-                                                    <td key={colIndex} className="px-6 py-4 whitespace-nowrap text-sm">
-                                                        {renderTableCell(item, header)}
-                                                    </td>
-                                                ))}
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                <GameHistoryTable gameHistory={gameHistory}/>
                             </div>
                         </div>
                     </div>
