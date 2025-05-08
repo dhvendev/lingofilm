@@ -20,6 +20,14 @@ class NewPicture(BaseModel):
 class AddToVocabulary(BaseModel):
     word: str
 
+class AddToVocabularyManually(BaseModel):
+    word: str
+    translation: str
+
+class EditWord(BaseModel):
+    word_id: int
+    translation: str
+
 class VocabularyWord(BaseModel):
     id: int
     english_word: str

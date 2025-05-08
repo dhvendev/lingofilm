@@ -10,7 +10,7 @@ import GuessWordGame from "../games/types/GuessWordGame";
 import MultipleChoiceGame from "../games/types/MultipleChoiceGame";
 import CardGame from "./DictionaryPreviewGame";
 
-export default function DictionaryGames({ vocabulary, updateWordStatus }) {
+export default function DictionaryGames({ vocabulary, updateWordStatus, hasSubscription, maxWords }) {
     const [gameMode, setGameMode] = useState(""); // "translate", "guessWord", "multipleChoice"
     // TODO В дальнейшем можно переделать вывод карточек в массив и вывести через map
 
@@ -37,6 +37,8 @@ export default function DictionaryGames({ vocabulary, updateWordStatus }) {
                                     gameDescription={"Вы увидите слово. Справитесь с переводом?"}
                                     onClick={() => setGameMode("translate")}
                                     colorIcon={"text-purple-600"}
+                                    disabled={false}
+                                    premiumRequired={false}
                                 />
                                 <CardGame
                                     gameTitle={"Угадай слово"}
@@ -44,6 +46,8 @@ export default function DictionaryGames({ vocabulary, updateWordStatus }) {
                                     gameDescription={"Вы увидите перевод слов. Укажите оригинальное английское слово."}
                                     onClick={() => setGameMode("guessWord")}
                                     colorIcon={"text-blue-600"}
+                                    disabled={!hasSubscription}
+                                    premiumRequired={!hasSubscription}
                                 />
                                 <CardGame
                                     gameTitle={"Разнообразный выбор"}
@@ -51,6 +55,8 @@ export default function DictionaryGames({ vocabulary, updateWordStatus }) {
                                     gameDescription={"Выберите правильный перевод из 4 вариантов."}
                                     onClick={() => setGameMode("multipleChoice")}
                                     colorIcon={"text-green-600"}
+                                    disabled={!hasSubscription}
+                                    premiumRequired={!hasSubscription}
                                 />
                             </div>
                         </CardContent>

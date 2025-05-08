@@ -10,19 +10,17 @@ export default function DictionaryInfo({ vocabulary }) {
     
     
     return (
-        <CardHeader className="pt-4 pb-6">
+        <CardHeader className="pt-4 pb-2">
             <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                 <div className="flex flex-col">
                     <CardTitle className="text-2xl flex items-center gap-2">
-                        Прогресс:
+                        Прогресс
                     </CardTitle>
                     <CardDescription className="text-muted-foreground mt-1">
                         Следите за прогрессом в изучении вашего словарного запаса
                     </CardDescription>
                 </div>
 
-                
-                
                 {/* Stats Cards */}
                 <div className="flex flex-row gap-4">
                     <div className="bg-card border rounded-lg px-4 py-2 text-center shadow-sm">

@@ -46,6 +46,25 @@ async def get_vocabulary_word(
     result = await session.execute(stmt)
     return result.scalar_one_or_none()
 
+async def edit_vocabulary_word(
+    session: AsyncSession,
+    user_id: int,
+    word_id: int,
+    russian_translation: str
+) -> Optional[UserVocabulary]:
+    """Получить конкретное слово из словаря"""
+    stmt = select(UserVocabulary).where(
+        UserVocabulary.user_id == user_id,
+        UserVocabulary.id == word_id
+    )
+    result = await session.execute(stmt)
+    word = result.scalar_one_or_none()
+    if not word:
+        return None
+    word.russian_translation = russian_translation
+    await session.commit()
+    return word
+
 async def get_user_vocabulary(
     session: AsyncSession,
     user_id: int,

@@ -41,7 +41,11 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import DialogDeleteWord from './DictionaryDeleteAlert';
 
-export default function DictionaryView({ vocabulary, updateWordStatus, deleteWord, addWord }) {
+export default function DictionaryView({ vocabulary, updateWordStatus,
+     deleteWord,
+     addWord,
+     hasSubscription,
+     maxWords, editWord}) {
     const [searchTerm, setSearchTerm] = useState("");
     const [sortBy, setSortBy] = useState("date");
     const [sortOrder, setSortOrder] = useState("desc");
@@ -51,7 +55,12 @@ export default function DictionaryView({ vocabulary, updateWordStatus, deleteWor
     const [deleteWordId, setDeleteWordId] = useState(null);
     const [showAddWordDialog, setShowAddWordDialog] = useState(false);
     const [newWord, setNewWord] = useState({ english: "", translation: "" });
+    const [showEditWordDialog, setShowEditWordDialog] = useState(false);
+    const [editedWord, setEditedWord] = useState({ word_id: null, translation: "" });
     const searchInputRef = useRef(null);
+
+    const wordsRemaining = maxWords - vocabulary.length;
+    const hasReachedLimit = !hasSubscription && vocabulary.length >= maxWords;
 
     const filteredWords = useMemo(() => 
         filterVocabulary(vocabulary, searchTerm),
@@ -103,6 +112,12 @@ export default function DictionaryView({ vocabulary, updateWordStatus, deleteWor
         setShowDeleteDialog(true);
     };
 
+    // Подтверждение удаления слова
+    const confirmEditWord = (id) => {
+        setEditedWord({...editedWord, word_id: id})
+        setShowEditWordDialog(true);
+    };
+
     // Удаление слова
     const handleDeleteWord = async () => {
         if (!deleteWordId) return;
@@ -122,22 +137,37 @@ export default function DictionaryView({ vocabulary, updateWordStatus, deleteWor
     // Добавить новое слова
     const handleAddWord = async () => {
         if (!newWord.english || !newWord.translation) {
-            toast.error("Please fill in both fields");
+            toast.error("Пожалуйста заполните все поля");
             return;
         }
         
         try {
             await addWord({
-                english_word: newWord.english,
-                russian_translation: newWord.translation
+                word: newWord.english,
+                translation: newWord.translation
             });
             
             setNewWord({ english: "", translation: "" });
             setShowAddWordDialog(false);
-            toast.success("Word added successfully!");
         } catch (error) {
             console.error("Error adding word:", error);
             toast.error("Failed to add word");
+        }
+    };
+
+    const handleEditWord = async () => {
+        console.log(editedWord)
+        if (!editedWord.word_id || !editedWord.translation) {
+            toast.error("Пожалуйста заполните все поля");
+            return;
+        }
+        
+        try {
+            await editWord(editedWord.word_id, editedWord.translation);
+            setNewWord({ word_id: null, translation: "" });
+            setShowEditWordDialog(false);
+        } catch (error) {
+            console.error("Error adding word:", error);
         }
     };
 
@@ -161,15 +191,18 @@ export default function DictionaryView({ vocabulary, updateWordStatus, deleteWor
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <Button 
-                                            variant="outline" 
-                                            size="sm"
-                                            onClick={() => setShowAddWordDialog(true)}
-                                            className="gap-1"
-                                        >
-                                            <PlusCircle className="h-4 w-4" />
-                                            <span className="hidden md:inline">Добавить слово</span>
-                                        </Button>
+                                    <Button 
+                                        variant="outline" 
+                                        size="sm"
+                                        onClick={() => setShowAddWordDialog(true)}
+                                        className="gap-1"
+                                        disabled={hasReachedLimit}
+                                    >
+                                        <PlusCircle className="h-4 w-4" />
+                                        <span className="hidden md:inline">
+                                            {hasReachedLimit ? 'Лимит достигнут' : 'Добавить слово'}
+                                        </span>
+                                    </Button>
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <p>Добавьте любое новое слово</p>
@@ -309,7 +342,9 @@ export default function DictionaryView({ vocabulary, updateWordStatus, deleteWor
                                                                 </Button>
                                                             </DropdownMenuTrigger>
                                                             <DropdownMenuContent align="end" className="w-[160px]">
-                                                                <DropdownMenuItem>
+                                                                <DropdownMenuItem
+                                                                    onClick={() => confirmEditWord(item.id)}
+                                                                >
                                                                     Изменить
                                                                 </DropdownMenuItem>
                                                                 <DropdownMenuSeparator />
@@ -419,7 +454,7 @@ export default function DictionaryView({ vocabulary, updateWordStatus, deleteWor
                             <p className="text-muted-foreground max-w-md mx-auto mb-6">
                                 {searchTerm 
                                  ? "Попробуйте изменить поисковый запрос" 
-                                 : "Добавьте первые слова, нажав на слово в субтритрах нужного фильма или воспользуйтесь кнопкой выше"}
+                                 : "Добавьте первые слова, нажав на слово в субтритрах нужного фильма или воспользуйтесь кнопкой ниже"}
                             </p>
                             {searchTerm ? (
                                 <Button 
@@ -432,11 +467,15 @@ export default function DictionaryView({ vocabulary, updateWordStatus, deleteWor
                             ) : (
                                 <Button 
                                     variant="outline" 
-                                    className="flex items-center gap-2"
+                                    size="sm"
                                     onClick={() => setShowAddWordDialog(true)}
+                                    className="gap-1"
+                                    disabled={hasReachedLimit}
                                 >
                                     <PlusCircle className="h-4 w-4" />
-                                    Добавить слово
+                                    <span className="hidden md:inline">
+                                        {hasReachedLimit ? 'Лимит достигнут' : 'Добавить слово'}
+                                    </span>
                                 </Button>
                             )}
                         </div>
@@ -488,6 +527,40 @@ export default function DictionaryView({ vocabulary, updateWordStatus, deleteWor
                             className="bg-primary"
                         >
                             Добавить слово
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
+            {/* изменить перевод слова */}
+            <AlertDialog open={showEditWordDialog} onOpenChange={setShowEditWordDialog}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Изменение перевода слова слова</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Введите новый перевод для слова
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <div className="grid gap-4 py-4">
+                        <div className="grid gap-2">
+                            <label htmlFor="translation" className="text-sm font-medium">
+                                Перевод слова
+                            </label>
+                            <Input
+                                id="translation"
+                                value={editedWord.translation}
+                                onChange={(e) => setEditedWord({...editedWord, translation: e.target.value})}
+                                placeholder="Введите перевод"
+                            />
+                        </div>
+                    </div>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Отмена</AlertDialogCancel>
+                        <AlertDialogAction 
+                            onClick={handleEditWord}
+                            className="bg-primary"
+                        >
+                            Изменить слово
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

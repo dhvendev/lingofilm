@@ -1,13 +1,24 @@
 import { Card, CardHeader, CardContent, CardTitle, CardFooter } from "@/components/ui/card"
-import { GamepadIcon, Brain } from 'lucide-react';
+import { GamepadIcon, Brain, Lock } from 'lucide-react';
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
-export default function DictionaryPreviewGame({gameTitle,  gameDescription, gameDifficult, onClick, colorIcon}) {
+export default function DictionaryPreviewGame({gameTitle,  gameDescription,
+    gameDifficult, onClick,
+    colorIcon, disabled, premiumRequired }) {
     return (
         <Card 
-            className="cursor-pointer hover:shadow-md transition-shadow border-2 hover:border-primary flex flex-col justify-between"
-            onClick={onClick}
+            className={`relative cursor-pointer hover:shadow-md transition-shadow border-2  flex flex-col justify-between ${disabled ? 'opacity-60' : 'hover:border-primary'}`}
+            onClick={disabled ? undefined : onClick}
         >
+            {premiumRequired && (
+                <div className="absolute top-1 right-2 z-50">
+                    <Badge className="bg-green-500">
+                        <Lock className="h-3 w-3 mr-1" />
+                        Для пользователей с подпиской
+                    </Badge>
+                </div>
+            )}
             <CardHeader className="pb-2">
                 <CardTitle className="text-lg flex items-center">
                     <GamepadIcon className={cn("h-5 w-5 mr-2", colorIcon)} />

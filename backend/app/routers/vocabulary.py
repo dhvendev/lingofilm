@@ -6,9 +6,10 @@ from app.crud.vocabulary import (
     add_word_to_vocabulary,
     get_user_vocabulary,
     update_word_learned_status,
-    delete_word_from_vocabulary
+    delete_word_from_vocabulary,
+    edit_vocabulary_word
 )
-from app.schemas.user import AddToVocabulary, VocabularyWord, UpdateWordStatus
+from app.schemas.user import AddToVocabulary, VocabularyWord, UpdateWordStatus, AddToVocabularyManually, EditWord
 from app.services.translate_api import translate_word
 from typing import List, Optional
 
@@ -43,6 +44,55 @@ async def add_word(
     
     if not word:
         raise HTTPException(status_code=500, detail="Failed to add word")
+    
+    return word
+
+@router.post('/addWordManually', response_model=VocabularyWord)
+async def add_word(
+    payload: AddToVocabularyManually,
+    session: AsyncSession = Depends(get_db),
+    session_id: str = Cookie(default=None)
+):
+    """Добавить слово в личный словарь со своим переводом"""
+    if not session_id:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    
+    user_id = await SessionManager.get_user_id_from_session(session_id)
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Session expired")
+
+    # Добавляем в словарь
+    word = await add_word_to_vocabulary(
+        session,
+        int(user_id),
+        payload.word,
+        payload.translation
+    )
+    
+    if not word:
+        raise HTTPException(status_code=500, detail="Failed to add word")
+    
+    return word
+
+@router.post('/editWord', response_model=VocabularyWord)
+async def add_word(
+    payload: EditWord,
+    session: AsyncSession = Depends(get_db),
+    session_id: str = Cookie(default=None)
+):
+    """Изменить перевод слова на свое"""
+    if not session_id:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    
+    user_id = await SessionManager.get_user_id_from_session(session_id)
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Session expired")
+
+    # Добавляем в словарь
+    word = await edit_vocabulary_word(session, int(user_id), payload.word_id, payload.translation)
+    
+    if not word:
+        raise HTTPException(status_code=500, detail="Failed to edit word")
     
     return word
 

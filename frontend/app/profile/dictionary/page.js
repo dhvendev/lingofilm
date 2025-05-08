@@ -18,8 +18,8 @@ export default function Page() {
     const userContext = useUser();
     const { 
         vocabulary, isLoading, error, 
-        addWord, updateWordStatus, deleteWord, 
-        translateWord 
+        addWord, updateWordStatus, deleteWord, editWord,
+        translateWord, hasSubscription, maxWords
     } = useVocabulary();
 
     const [activeTab, setActiveTab] = useState("dictionary");
@@ -51,6 +51,7 @@ export default function Page() {
                 <DictionaryInfo  vocabulary={vocabulary} />
 
                 {/* Если нет подписки */}
+                {!hasSubscription && (
                 <div className="bg-gradient-to-l from-green-600 rounded-lg p-6 text-white text-center mx-5">
                     <div className="flex justify-center mb-4">
                         <Lock className="w-12 h-12" />
@@ -58,14 +59,16 @@ export default function Page() {
                     <h3 className="text-xl font-bold mb-2">Разблокируйте полный функционал словаря</h3>
                     <p className="mb-4">Подписка открывает доступ к расширенным функциям, неограниченному количеству слов и игр</p>
                     <button className="bg-white text-green-700 px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors">
-                    Оформить подписку
+                        Оформить подписку
                     </button>
                 </div>
+                )}
+                
 
                 {/* Панель навигации и контент словаря */}
                 <CardContent>
                     <Tabs defaultValue="dictionary" className="w-full" value={activeTab} onValueChange={setActiveTab}>
-                        <TabsList className="grid w-full grid-cols-2 mb-8">
+                        <TabsList className="grid w-full grid-cols-2">
                             <TabsTrigger value="dictionary">Словарь</TabsTrigger>
                             <TabsTrigger value="games">Обучающие мини-игры</TabsTrigger>
                         </TabsList>
@@ -77,11 +80,16 @@ export default function Page() {
                                 updateWordStatus={updateWordStatus}
                                 deleteWord={deleteWord}
                                 addWord={addWord}
+                                hasSubscription={hasSubscription}
+                                maxWords={maxWords}
+                                editWord={editWord}
                             />
                         ) : (
                             <DictionaryGames
                                 vocabulary={vocabulary}
                                 updateWordStatus={updateWordStatus}
+                                hasSubscription={hasSubscription}
+                                maxWords={maxWords}
                             />
                         )}
                     </Tabs>
