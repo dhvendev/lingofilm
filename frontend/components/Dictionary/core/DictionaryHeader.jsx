@@ -3,7 +3,7 @@ import { BookOpen, Sparkles } from "lucide-react";
 export default function DictionaryHeader() {
     return (
         <div className="relative">
-            <div className="h-48 w-full bg-gradient-to-r from-green-900 via-green-700 to-green-500 rounded-t-lg"></div>
+            <div className="h-48 w-full bg-gradient-to-r from-green-700 to-green-950 rounded-t-lg"></div>
             <div className="absolute bottom-4 left-8 flex items-center">
                 <div className="h-24 w-24 bg-black rounded-full flex items-center justify-center relative group">
                     <BookOpen className="h-12 w-12 text-white transition-transform duration-300 group-hover:scale-110" />
